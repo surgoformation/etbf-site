@@ -2001,7 +2001,7 @@ async function loadBlogPosts() {
     grid.innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
   }
 }
-loadBlogPosts();
+document.addEventListener('DOMContentLoaded', loadBlogPosts);
 </script>
 <!-- FAQ -->
 <section class="faq-section" id="faq">
