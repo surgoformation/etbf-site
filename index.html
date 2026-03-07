@@ -1936,73 +1936,7 @@ footer {
   </div>
 </section>
 
-<!-- INSIGHTS / BLOG -->
-<section class="insights" id="insights">
-  <div class="insights-header">
-    <div>
-      <div class="section-label reveal">Ressources & expertise</div>
-      <h2 class="section-title reveal reveal-delay-1">Insights & stratégies IA.</h2>
-    </div>
-  </div>
-  <div class="insights-grid" id="blog-grid">
-    <p style="color:var(--text-muted); padding: 40px 0;">Chargement des articles...</p>
-  </div>
-</section>
 
-<script>
-async function loadBlogPosts() {
-  const grid = document.getElementById('blog-grid');
-  try {
-    const apiResponse = await fetch('https://api.github.com/repos/surgoformation/etbf-site/contents/_posts');
-    const files = await apiResponse.json();
-    
-    if (!Array.isArray(files) || files.length === 0) {
-      grid.innerHTML = '<p style="color:var(--text-muted); padding: 40px 0;">Aucun article pour le moment.</p>';
-      return;
-    }
-
-    let html = '';
-    for (const file of files.slice(0, 3)) {
-      const postResponse = await fetch(file.download_url);
-      const text = await postResponse.text();
-      
-      // Parse frontmatter entre les deux ---
-      const fmMatch = text.match(/^---\n([\s\S]*?)\n---/);
-      let title = 'Sans titre';
-      let date = '';
-      let body = '';
-
-      if (fmMatch) {
-        const fm = fmMatch[1];
-        const titleMatch = fm.match(/^title:\s*(.+)$/m);
-        const dateMatch = fm.match(/^date:\s*(.+)$/m);
-        if (titleMatch) title = titleMatch[1].replace(/['"]/g, '').trim();
-        if (dateMatch) {
-          try {
-            date = new Date(dateMatch[1].trim()).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'});
-          } catch(e) { date = ''; }
-        }
-        body = text.slice(fmMatch[0].length).trim().slice(0, 150);
-      }
-
-      html += `
-        <div class="insight-card reveal">
-          <div class="insight-content">
-            <span class="insight-tag">Article</span>
-            <div class="insight-title">${title}</div>
-            <p class="insight-excerpt">${body}...</p>
-            <div class="insight-meta">${date}</div>
-          </div>
-        </div>`;
-    }
-    grid.innerHTML = html;
-  } catch(e) {
-    console.error(e);
-    grid.innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
-  }
-}
-document.addEventListener('DOMContentLoaded', loadBlogPosts);
-</script>
 <!-- FAQ -->
 <section class="faq-section" id="faq">
   <div class="faq-grid">
