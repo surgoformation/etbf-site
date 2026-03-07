@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ETBF — Votre temps n'a pas de prix</title>
@@ -37,7 +37,17 @@
 
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
-body {
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>body {
   background: var(--black);
   color: var(--white);
   font-family: var(--font-body);
