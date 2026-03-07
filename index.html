@@ -1951,15 +1951,12 @@ footer {
 
 <script>
 async function loadBlogPosts() {
+  const grid = document.getElementById('blog-grid');
   try {
-    const response = await fetch('/_posts/');
-    const grid = document.getElementById('blog-grid');
-    
-    // Fetch list of markdown files from GitHub API
     const apiResponse = await fetch('https://api.github.com/repos/surgoformation/etbf-site/contents/_posts');
     const files = await apiResponse.json();
     
-    if (!files.length) {
+    if (!Array.isArray(files) || files.length === 0) {
       grid.innerHTML = '<p style="color:var(--text-muted); padding: 40px 0;">Aucun article pour le moment.</p>';
       return;
     }
@@ -1969,7 +1966,6 @@ async function loadBlogPosts() {
       const postResponse = await fetch(file.download_url);
       const text = await postResponse.text();
       
-      // Parse frontmatter
       const titleMatch = text.match(/title:\s*["']?(.+?)["']?\n/);
       const dateMatch = text.match(/date:\s*(.+)\n/);
       const bodyStart = text.indexOf('---', 3) + 3;
@@ -1990,12 +1986,11 @@ async function loadBlogPosts() {
     }
     grid.innerHTML = html;
   } catch(e) {
-    document.getElementById('blog-grid').innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
+    grid.innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
   }
 }
 loadBlogPosts();
 </script>
-
 <!-- FAQ -->
 <section class="faq-section" id="faq">
   <div class="faq-grid">
