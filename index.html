@@ -1943,51 +1943,58 @@ footer {
       <div class="section-label reveal">Ressources & expertise</div>
       <h2 class="section-title reveal reveal-delay-1">Insights & stratégies IA.</h2>
     </div>
-    <a href="#contact" class="btn-secondary reveal reveal-delay-2">
-      Voir tous les articles
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
   </div>
-
-  <div class="insights-grid">
-    <a class="insight-card featured reveal" href="#contact">
-      <div class="insight-img">
-        <div class="insight-img-bg insight-img-1"></div>
-        <span class="insight-img-icon">🤖</span>
-      </div>
-      <div class="insight-content">
-        <span class="insight-tag">Stratégie</span>
-        <div class="insight-title large">Les 7 processus que toute PME devrait automatiser en 2025 pour rester compétitive</div>
-        <p class="insight-excerpt">De la gestion des leads à la facturation, découvrez les workflows qui libèrent le plus de temps et génèrent le meilleur ROI immédiat.</p>
-        <div class="insight-meta">5 min de lecture · Publié le 12 mars 2025</div>
-      </div>
-    </a>
-
-    <a class="insight-card reveal reveal-delay-1" href="#contact">
-      <div class="insight-img">
-        <div class="insight-img-bg insight-img-2"></div>
-        <span class="insight-img-icon">💡</span>
-      </div>
-      <div class="insight-content">
-        <span class="insight-tag">IA</span>
-        <div class="insight-title">Comment les agents IA remplacent les tâches à faible valeur sans remplacer les humains</div>
-        <div class="insight-meta">4 min · 8 mars 2025</div>
-      </div>
-    </a>
-
-    <a class="insight-card reveal reveal-delay-2" href="#contact">
-      <div class="insight-img">
-        <div class="insight-img-bg insight-img-3"></div>
-        <span class="insight-img-icon">📊</span>
-      </div>
-      <div class="insight-content">
-        <span class="insight-tag">ROI</span>
-        <div class="insight-title">Étude de cas : ×6 sur le ROI en 90 jours pour cette PME de 12 personnes</div>
-        <div class="insight-meta">6 min · 3 mars 2025</div>
-      </div>
-    </a>
+  <div class="insights-grid" id="blog-grid">
+    <p style="color:var(--text-muted); padding: 40px 0;">Chargement des articles...</p>
   </div>
 </section>
+
+<script>
+async function loadBlogPosts() {
+  try {
+    const response = await fetch('/_posts/');
+    const grid = document.getElementById('blog-grid');
+    
+    // Fetch list of markdown files from GitHub API
+    const apiResponse = await fetch('https://api.github.com/repos/surgoformation/etbf-site/contents/_posts');
+    const files = await apiResponse.json();
+    
+    if (!files.length) {
+      grid.innerHTML = '<p style="color:var(--text-muted); padding: 40px 0;">Aucun article pour le moment.</p>';
+      return;
+    }
+
+    let html = '';
+    for (const file of files.slice(0, 3)) {
+      const postResponse = await fetch(file.download_url);
+      const text = await postResponse.text();
+      
+      // Parse frontmatter
+      const titleMatch = text.match(/title:\s*["']?(.+?)["']?\n/);
+      const dateMatch = text.match(/date:\s*(.+)\n/);
+      const bodyStart = text.indexOf('---', 3) + 3;
+      const body = text.slice(bodyStart).trim().slice(0, 150);
+      
+      const title = titleMatch ? titleMatch[1] : 'Sans titre';
+      const date = dateMatch ? new Date(dateMatch[1]).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}) : '';
+
+      html += `
+        <div class="insight-card reveal">
+          <div class="insight-content">
+            <span class="insight-tag">Article</span>
+            <div class="insight-title">${title}</div>
+            <p class="insight-excerpt">${body}...</p>
+            <div class="insight-meta">${date}</div>
+          </div>
+        </div>`;
+    }
+    grid.innerHTML = html;
+  } catch(e) {
+    document.getElementById('blog-grid').innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
+  }
+}
+loadBlogPosts();
+</script>
 
 <!-- FAQ -->
 <section class="faq-section" id="faq">
