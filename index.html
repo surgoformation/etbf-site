@@ -1966,13 +1966,24 @@ async function loadBlogPosts() {
       const postResponse = await fetch(file.download_url);
       const text = await postResponse.text();
       
-      const titleMatch = text.match(/title:\s*["']?(.+?)["']?\n/);
-      const dateMatch = text.match(/date:\s*(.+)\n/);
-      const bodyStart = text.indexOf('---', 3) + 3;
-      const body = text.slice(bodyStart).trim().slice(0, 150);
-      
-      const title = titleMatch ? titleMatch[1] : 'Sans titre';
-      const date = dateMatch ? new Date(dateMatch[1]).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}) : '';
+      // Parse frontmatter entre les deux ---
+      const fmMatch = text.match(/^---\n([\s\S]*?)\n---/);
+      let title = 'Sans titre';
+      let date = '';
+      let body = '';
+
+      if (fmMatch) {
+        const fm = fmMatch[1];
+        const titleMatch = fm.match(/^title:\s*(.+)$/m);
+        const dateMatch = fm.match(/^date:\s*(.+)$/m);
+        if (titleMatch) title = titleMatch[1].replace(/['"]/g, '').trim();
+        if (dateMatch) {
+          try {
+            date = new Date(dateMatch[1].trim()).toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'});
+          } catch(e) { date = ''; }
+        }
+        body = text.slice(fmMatch[0].length).trim().slice(0, 150);
+      }
 
       html += `
         <div class="insight-card reveal">
@@ -1986,6 +1997,7 @@ async function loadBlogPosts() {
     }
     grid.innerHTML = html;
   } catch(e) {
+    console.error(e);
     grid.innerHTML = '<p style="color:var(--text-muted);">Aucun article pour le moment.</p>';
   }
 }
