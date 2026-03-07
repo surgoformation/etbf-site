@@ -1936,7 +1936,21 @@ footer {
   </div>
 </section>
 
-{
+<!-- INSIGHTS / BLOG -->
+<section class="insights" id="insights">
+  <div class="insights-header">
+    <div>
+      <div class="section-label reveal">Ressources & expertise</div>
+      <h2 class="section-title reveal reveal-delay-1">Insights & stratégies IA.</h2>
+    </div>
+  </div>
+  <div class="insights-grid" id="blog-grid">
+    <p style="color:var(--text-muted); padding: 40px 0;">Chargement des articles...</p>
+  </div>
+</section>
+
+<script>
+async function loadBlogPosts() {
   const grid = document.getElementById('blog-grid');
   try {
     const apiResponse = await fetch('https://api.github.com/repos/surgoformation/etbf-site/contents/_posts');
