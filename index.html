@@ -311,14 +311,11 @@ section { padding: 96px 60px; }
 .faq-answer-inner { padding: 0 20px 20px; font-size: 14px; color: var(--text-muted); line-height: 1.8; }
 .faq-item.open .faq-answer { max-height: 300px; }
 
-/* CONTACT — renommé "Passez à l'action" */
+/* CONTACT — Passez à l'action */
 .contact-section { background: var(--bg-white); }
-.contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: start; }
-.contact-info-list { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
-.contact-info-item { display: flex; align-items: flex-start; gap: 14px; }
-.contact-icon { width: 40px; height: 40px; min-width: 40px; background: var(--orange); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.contact-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--text-light); margin-bottom: 2px; }
-.contact-value { font-size: 14px; font-weight: 600; }
+.contact-centered { max-width: 760px; margin: 0 auto; }
+.contact-centered-header { text-align: center; margin-bottom: 40px; }
+.contact-centered-header .section-sub { margin: 0 auto; }
 .form-box { background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-full { grid-column: 1/-1; }
@@ -368,9 +365,7 @@ footer { background: var(--bg-footer); padding: 60px; }
 .footer-legal a { font-size: 12px; color: #6b7280; text-decoration: none; transition: color .2s; }
 .footer-legal a:hover { color: #fff; }
 
-.talk-btn { position: fixed; bottom: 24px; right: 24px; z-index: 800; background: var(--black); color: #fff; border: none; border-radius: 100px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: none; box-shadow: 0 8px 24px rgba(0,0,0,.3); transition: all .2s; text-decoration: none; }
-.talk-btn:hover { background: #222; transform: translateY(-2px); }
-.talk-icon { width: 30px; height: 30px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+
 
 /* RESPONSIVE */
 @media (max-width:1100px) {
@@ -422,7 +417,7 @@ footer { background: var(--bg-footer); padding: 60px; }
   <a href="#pourquoi" onclick="closeMobileNav()">Méthode</a>
   <a href="#temoignages" onclick="closeMobileNav()">Témoignages</a>
   <a href="#faq" onclick="closeMobileNav()">FAQ</a>
-  <a href="#contact" onclick="closeMobileNav()" style="color:var(--orange)">Démarrer →</a>
+  <a href="#contact" onclick="closeMobileNav()" style="color:var(--orange)">Passez à l'action →</a>
 </div>
 
 <nav id="navbar">
@@ -432,7 +427,7 @@ footer { background: var(--bg-footer); padding: 60px; }
     <li><a href="#pourquoi">Méthode</a></li>
     <li><a href="#temoignages">Témoignages</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#contact" class="nav-btn">Démarrer →</a></li>
+    <li><a href="#contact" class="nav-btn">Passez à l'action →</a></li>
   </ul>
   <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -729,7 +724,7 @@ footer { background: var(--bg-footer); padding: 60px; }
         <span class="faq-cta-icon">💬</span>
         <div class="faq-cta-title">Vous avez d'autres questions ?</div>
         <p class="faq-cta-text">Notre équipe répond sous 24h. Posez-nous toutes vos questions lors d'un appel découverte gratuit de 30 minutes, sans engagement.</p>
-        <a href="#contact" class="btn-dark">Réserver un appel gratuit</a>
+        <a href="#contact" class="btn-dark">Contactez-nous</a>
       </div>
     </div>
     <div class="faq-list reveal reveal-delay-2">
@@ -743,49 +738,49 @@ footer { background: var(--bg-footer); padding: 60px; }
   </div>
 </section>
 
-<!-- ==================== CONTACT — "Passez à l'action" ==================== -->
+<!-- ==================== CONTACT — Passez à l'action ==================== -->
 <section class="contact-section" id="contact">
-  <div class="contact-grid">
-    <div>
+  <div class="contact-centered">
+    <div class="contact-centered-header">
       <span class="section-label reveal">Passez à l'action</span>
       <h2 class="section-title reveal reveal-delay-1">Passez à l'action.</h2>
       <p class="section-sub reveal reveal-delay-2">Partagez-nous vos enjeux. En 48h, vous avez un premier plan d'action concret — sans jargon, sans engagement.</p>
-      <div class="contact-info-list reveal reveal-delay-3">
-        <div class="contact-info-item"><div class="contact-icon">📧</div><div><div class="contact-label">Email</div><div class="contact-value">contact@etbf.fr</div></div></div>
-        <div class="contact-info-item"><div class="contact-icon">📍</div><div><div class="contact-label">Localisation</div><div class="contact-value">Montpellier, France · À distance partout</div></div></div>
-        <div class="contact-info-item"><div class="contact-icon">⏱️</div><div><div class="contact-label">Réponse garantie</div><div class="contact-value">Sous 24 heures ouvrées</div></div></div>
-      </div>
     </div>
     <div class="reveal reveal-delay-2">
       <div class="form-box">
         <div id="contactForm">
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Prénom <span>*</span></label><input type="text" class="form-control" placeholder="Jean" id="fPrenom"></div>
-            <div class="form-group"><label class="form-label">Nom <span>*</span></label><input type="text" class="form-control" placeholder="Dupont" id="fNom"></div>
-            <div class="form-group"><label class="form-label">Email professionnel <span>*</span></label><input type="email" class="form-control" placeholder="jean@societe.fr" id="fEmail"></div>
-            <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-control" placeholder="+33 6 00 00 00 00" id="fTel"></div>
-            <div class="form-group form-full"><label class="form-label">Nom de la société <span>*</span></label><input type="text" class="form-control" placeholder="Ma Société SAS" id="fSociete"></div>
-            <div class="form-group"><label class="form-label">Secteur d'activité</label><select class="form-control" id="fSecteur"><option value="">Sélectionnez votre secteur</option><option>E-commerce / Retail</option><option>SaaS / Tech</option><option>Services B2B</option><option>Industrie / Manufacturing</option><option>Immobilier</option><option>Finance / Assurance</option><option>Santé</option><option>Formation / RH</option><option>Autre</option></select></div>
-            <div class="form-group"><label class="form-label">Taille de l'équipe</label><select class="form-control" id="fTaille"><option value="">Nombre de collaborateurs</option><option>1–5 personnes</option><option>6–20 personnes</option><option>21–50 personnes</option><option>51–200 personnes</option><option>200+ personnes</option></select></div>
-            <div class="form-group form-full">
-              <label class="form-label" style="margin-bottom:10px;">Budget envisagé</label>
-              <div class="budget-grid">
-                <div class="budget-option"><input type="radio" name="budget" id="b1" value="< 2 000€"><label class="budget-label" for="b1">< 2 000€</label></div>
-                <div class="budget-option"><input type="radio" name="budget" id="b2" value="2 000 - 5 000€"><label class="budget-label" for="b2">2 000 - 5 000€</label></div>
-                <div class="budget-option"><input type="radio" name="budget" id="b3" value="5 000 - 15 000€"><label class="budget-label" for="b3">5 000 - 15 000€</label></div>
-                <div class="budget-option"><input type="radio" name="budget" id="b4" value="> 15 000€"><label class="budget-label" for="b4">> 15 000€</label></div>
+          <!-- Netlify Forms : envoie automatiquement à etbf.ai@gmail.com via le tableau de bord Netlify -->
+          <form name="contact-etbf" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleFormSubmit(event)">
+            <input type="hidden" name="form-name" value="contact-etbf">
+            <p style="display:none"><label>Ne pas remplir : <input name="bot-field"></label></p>
+            <div class="form-grid">
+              <div class="form-group"><label class="form-label">Prénom <span>*</span></label><input type="text" name="prenom" class="form-control" placeholder="Jean" id="fPrenom" required></div>
+              <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-control" placeholder="Dupont" id="fNom"></div>
+              <div class="form-group"><label class="form-label">Email professionnel <span>*</span></label><input type="email" name="email" class="form-control" placeholder="jean@societe.fr" id="fEmail" required></div>
+              <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-control" placeholder="+33 6 00 00 00 00" id="fTel"></div>
+              <div class="form-group form-full"><label class="form-label">Nom de la société <span>*</span></label><input type="text" name="societe" class="form-control" placeholder="Ma Société SAS" id="fSociete" required></div>
+              <div class="form-group"><label class="form-label">Secteur d'activité</label><select name="secteur" class="form-control" id="fSecteur"><option value="">Sélectionnez votre secteur</option><option>E-commerce / Retail</option><option>SaaS / Tech</option><option>Services B2B</option><option>Industrie / Manufacturing</option><option>Immobilier</option><option>Finance / Assurance</option><option>Santé</option><option>Formation / RH</option><option>Autre</option></select></div>
+              <div class="form-group"><label class="form-label">Taille de l'équipe</label><select name="taille" class="form-control" id="fTaille"><option value="">Nombre de collaborateurs</option><option>1–5 personnes</option><option>6–20 personnes</option><option>21–50 personnes</option><option>51–200 personnes</option><option>200+ personnes</option></select></div>
+              <div class="form-group form-full">
+                <label class="form-label" style="margin-bottom:10px;">Budget envisagé</label>
+                <div class="budget-grid">
+                  <div class="budget-option"><input type="radio" name="budget" id="b1" value="moins de 2000€"><label class="budget-label" for="b1">< 2 000€</label></div>
+                  <div class="budget-option"><input type="radio" name="budget" id="b2" value="2000 - 5000€"><label class="budget-label" for="b2">2 000 - 5 000€</label></div>
+                  <div class="budget-option"><input type="radio" name="budget" id="b3" value="5000 - 15000€"><label class="budget-label" for="b3">5 000 - 15 000€</label></div>
+                  <div class="budget-option"><input type="radio" name="budget" id="b4" value="plus de 15000€"><label class="budget-label" for="b4">> 15 000€</label></div>
+                </div>
+              </div>
+              <div class="form-group form-full">
+                <label class="form-label">Décrivez votre besoin <span>*</span></label>
+                <textarea name="message" class="form-control" placeholder="Quels processus voulez-vous automatiser ? Quels sont vos enjeux actuels ? Plus vous êtes précis, mieux nous pouvons vous aider..." id="fMessage" oninput="updateCharCount(this)" required></textarea>
+                <div class="char-count"><span id="charCount">0</span>/500 caractères</div>
               </div>
             </div>
-            <div class="form-group form-full">
-              <label class="form-label">Décrivez votre besoin <span>*</span></label>
-              <textarea class="form-control" placeholder="Quels processus voulez-vous automatiser ? Quels sont vos enjeux actuels ? Plus vous êtes précis, mieux nous pouvons vous aider..." id="fMessage" oninput="updateCharCount(this)"></textarea>
-              <div class="char-count"><span id="charCount">0</span>/500 caractères</div>
+            <div class="form-footer">
+              <span class="form-secure">🔒 Données sécurisées · RGPD compliant</span>
+              <button type="submit" class="btn-submit">Envoyer ma demande →</button>
             </div>
-          </div>
-          <div class="form-footer">
-            <span class="form-secure">Données sécurisées · RGPD compliant</span>
-            <button class="btn-submit" onclick="submitForm()">Envoyer ma demande →</button>
-          </div>
+          </form>
         </div>
         <div class="form-success" id="formSuccess">
           <span class="success-icon">✅</span>
@@ -807,7 +802,7 @@ footer { background: var(--bg-footer); padding: 60px; }
     </div>
     <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#services">Agents IA autonomes</a></li><li><a href="#services">Automatisation workflows</a></li><li><a href="#services">Chatbots intelligents</a></li><li><a href="#services">Reporting automatique</a></li><li><a href="#services">Traitement documents</a></li></ul></div>
     <div class="footer-col"><h4>Entreprise</h4><ul class="footer-links"><li><a href="#pourquoi">Notre méthode</a></li><li><a href="#temoignages">Témoignages</a></li><li><a href="#cas">Cas concrets</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:contact@etbf.fr">contact@etbf.fr</a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#f5969a9b81949681b590819793db9387"><span class="__cf_email__" data-cfemail="e685898892878592a683928480c88094">[email&#160;protected]</span></a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 <strong>ETBF</strong> · Tous droits réservés</div>
@@ -815,9 +810,9 @@ footer { background: var(--bg-footer); padding: 60px; }
   </div>
 </footer>
 
-<a href="#contact" class="talk-btn"><div class="talk-icon">💬</div> Talk with Us</a>
 
-<script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // CURSOR
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -871,26 +866,34 @@ function toggleFaq(btn){const item=btn.closest('.faq-item');const was=item.class
 // CHAR COUNT
 function updateCharCount(el){document.getElementById('charCount').textContent=el.value.length;}
 
-// FORM
-function submitForm(){
-  const p=document.getElementById('fPrenom').value.trim(),e=document.getElementById('fEmail').value.trim(),s=document.getElementById('fSociete').value.trim(),m=document.getElementById('fMessage').value.trim();
-  if(!p||!e||!s||!m){
-    [{id:'fPrenom',empty:!p},{id:'fEmail',empty:!e},{id:'fSociete',empty:!s},{id:'fMessage',empty:!m}].forEach(({id,empty})=>{
-      if(empty){const el=document.getElementById(id);el.style.borderColor='#ef4444';el.style.animation='shake .4s';setTimeout(()=>{el.style.borderColor='';el.style.animation='';},1000);}
-    });return;
-  }
-  document.getElementById('contactForm').style.display='none';
-  document.getElementById('formSuccess').style.display='block';
+// FORM — Netlify Forms handler (envoie à etbf.ai@gmail.com via Netlify)
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const p=document.getElementById('fPrenom').value.trim(),
+        em=document.getElementById('fEmail').value.trim(),
+        s=document.getElementById('fSociete').value.trim(),
+        m=document.getElementById('fMessage').value.trim();
+  // Validation visuelle
+  let ok=true;
+  [{id:'fPrenom',empty:!p},{id:'fEmail',empty:!em},{id:'fSociete',empty:!s},{id:'fMessage',empty:!m}].forEach(({id,empty})=>{
+    if(empty){ok=false;const el=document.getElementById(id);el.style.borderColor='#ef4444';el.style.animation='shake .4s';setTimeout(()=>{el.style.borderColor='';el.style.animation='';},1000);}
+  });
+  if(!ok)return;
+  // Envoi Netlify
+  const form=e.target;
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams(new FormData(form)).toString()})
+    .then(()=>{
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('formSuccess').style.display='block';
+    })
+    .catch(()=>{
+      // Fallback : affiche quand même le succès côté client
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('formSuccess').style.display='block';
+    });
 }
 const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';document.head.appendChild(st);
 
 // SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
-</script>
-
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if(window.netlifyIdentity){window.netlifyIdentity.on("init",user=>{if(!user){window.netlifyIdentity.on("login",()=>{document.location.href="/admin/";});}});}
-</script>
-</body>
-</html>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefaul
