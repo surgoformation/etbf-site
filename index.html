@@ -750,9 +750,8 @@ footer { background: var(--bg-footer); padding: 60px; }
       <div class="form-box">
         <div id="contactForm">
           <!-- Netlify Forms : envoie automatiquement à etbf.ai@gmail.com via le tableau de bord Netlify -->
-          <form name="contact-etbf" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleFormSubmit(event)">
+          <form name="contact-etbf" method="POST" data-netlify="true" onsubmit="handleFormSubmit(event)">
             <input type="hidden" name="form-name" value="contact-etbf">
-            <p style="display:none"><label>Ne pas remplir : <input name="bot-field"></label></p>
             <div class="form-grid">
               <div class="form-group"><label class="form-label">Prénom <span>*</span></label><input type="text" name="prenom" class="form-control" placeholder="Jean" id="fPrenom" required></div>
               <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-control" placeholder="Dupont" id="fNom"></div>
@@ -881,7 +880,7 @@ function handleFormSubmit(e) {
   if(!ok)return;
   // Envoi Netlify
   const form=e.target;
-  fetch('https://etbf.fr/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
     body:new URLSearchParams(new FormData(form)).toString()})
     .then(()=>{
       document.getElementById('contactForm').style.display='none';
