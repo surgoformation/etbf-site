@@ -749,9 +749,11 @@ footer { background: var(--bg-footer); padding: 60px; }
     <div class="reveal reveal-delay-2">
       <div class="form-box">
         <div id="contactForm">
-          <!-- Netlify Forms : envoie automatiquement à etbf.ai@gmail.com via le tableau de bord Netlify -->
-          <form name="contact-etbf" method="POST" data-netlify="true" onsubmit="handleFormSubmit(event)">
-            <input type="hidden" name="form-name" value="contact-etbf">
+          <!-- Web3Forms : envoie à etbf.ai@gmail.com -->
+          <form onsubmit="handleFormSubmit(event)">
+            <input type="hidden" name="access_key" value="27b1f3d2-a5e3-49d8-ba8b-6c97441b5572">
+            <input type="hidden" name="subject" value="Nouvelle demande ETBF — site web">
+            <input type="checkbox" name="botcheck" style="display:none">
             <div class="form-grid">
               <div class="form-group"><label class="form-label">Prénom <span>*</span></label><input type="text" name="prenom" class="form-control" placeholder="Jean" id="fPrenom" required></div>
               <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-control" placeholder="Dupont" id="fNom"></div>
@@ -801,7 +803,7 @@ footer { background: var(--bg-footer); padding: 60px; }
     </div>
     <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#services">Agents IA autonomes</a></li><li><a href="#services">Automatisation workflows</a></li><li><a href="#services">Chatbots intelligents</a></li><li><a href="#services">Reporting automatique</a></li><li><a href="#services">Traitement documents</a></li></ul></div>
     <div class="footer-col"><h4>Entreprise</h4><ul class="footer-links"><li><a href="#pourquoi">Notre méthode</a></li><li><a href="#temoignages">Témoignages</a></li><li><a href="#cas">Cas concrets</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#f5969a9b81949681b590819793db9387"><span class="__cf_email__" data-cfemail="e685898892878592a683928480c88094">[email&#160;protected]</span></a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:etbf.ai@gmail.com">etbf.ai@gmail.com</a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 <strong>ETBF</strong> · Tous droits réservés</div>
@@ -811,7 +813,7 @@ footer { background: var(--bg-footer); padding: 60px; }
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // CURSOR
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -865,8 +867,8 @@ function toggleFaq(btn){const item=btn.closest('.faq-item');const was=item.class
 // CHAR COUNT
 function updateCharCount(el){document.getElementById('charCount').textContent=el.value.length;}
 
-// FORM — Netlify Forms handler (envoie à etbf.ai@gmail.com via Netlify)
-function handleFormSubmit(e) {
+// FORM — Web3Forms handler
+async function handleFormSubmit(e) {
   e.preventDefault();
   const p=document.getElementById('fPrenom').value.trim(),
         em=document.getElementById('fEmail').value.trim(),
@@ -880,17 +882,38 @@ function handleFormSubmit(e) {
   if(!ok)return;
   // Envoi Netlify
   const form=e.target;
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:new URLSearchParams(new FormData(form)).toString()})
-    .then(()=>{
-      document.getElementById('contactForm').style.display='none';
-      document.getElementById('formSuccess').style.display='block';
-    })
-    .catch(()=>{
-      // Fallback : affiche quand même le succès côté client
-      document.getElementById('contactForm').style.display='none';
-      document.getElementById('formSuccess').style.display='block';
+  const btn=form.querySelector('.btn-submit');
+  btn.textContent='Envoi en cours...'; btn.disabled=true;
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+      body: JSON.stringify({
+        access_key: form.querySelector('[name=access_key]').value,
+        subject: 'Nouvelle demande ETBF — site web',
+        from_name: 'ETBF Site Web',
+        prenom: document.getElementById('fPrenom').value,
+        nom: document.getElementById('fNom').value,
+        email: document.getElementById('fEmail').value,
+        telephone: document.getElementById('fTel').value,
+        societe: document.getElementById('fSociete').value,
+        secteur: document.getElementById('fSecteur').value,
+        taille: document.getElementById('fTaille').value,
+        message: document.getElementById('fMessage').value,
+      })
     });
+    const data = await res.json();
+    if(data.success){
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('formSuccess').style.display='block';
+    } else {
+      btn.textContent='Envoyer ma demande →'; btn.disabled=false;
+      alert('Erreur lors de l'envoi. Veuillez réessayer.');
+    }
+  } catch(err){
+    btn.textContent='Envoyer ma demande →'; btn.disabled=false;
+    alert('Erreur réseau. Veuillez réessayer.');
+  }
 }
 const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';document.head.appendChild(st);
 
@@ -898,9 +921,6 @@ const st=document.createElement('style');st.textContent='@keyframes shake{0%,100
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
 </script>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if(window.netlifyIdentity){window.netlifyIdentity.on("init",user=>{if(!user){window.netlifyIdentity.on("login",()=>{document.location.href="/admin/";});}});}
-</script>
+
 </body>
 </html>
