@@ -814,7 +814,7 @@ select.q-control option{background:#fff;}
     <div style="text-align:center;margin-bottom:44px;">
       <span class="section-label reveal">Passez à l'action</span>
       <h2 class="section-title reveal reveal-delay-1">Diagnostic gratuit.<br>Réponse sous 24h.</h2>
-      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">7 questions pour cerner votre besoin. Recevez un plan d'action personnalisé — sans jargon, sans engagement.</p>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">7 étapes pour cerner votre besoin. Recevez un plan d'action personnalisé — sans jargon, sans engagement.</p>
     </div>
     <div class="reveal reveal-delay-2">
       <!-- Progress -->
@@ -851,15 +851,15 @@ select.q-control option{background:#fff;}
         <h3 class="q-step-title">Quel est votre<br><span style="color:var(--orange)">défi principal ?</span></h3>
         <p class="q-step-sub">Identifiez la douleur centrale que vous souhaitez résoudre avec l'automatisation ou l'IA.</p>
         <div class="q-field-group">
-          <label class="q-field-label">Quel type de besoin vous amène ? <span class="req">*</span></label>
+          <label class="q-field-label">Quels types de besoins vous amènent ? <span class="req">*</span></label>
           <div class="q-choice-grid">
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt1" value="automatisation_taches"><label class="q-choice-label" for="qbt1"><span class="q-choice-icon">⚙️</span><span class="q-choice-title">Automatiser des tâches</span><span class="q-choice-desc">Répétitives, chronophages</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt2" value="agent_ia"><label class="q-choice-label" for="qbt2"><span class="q-choice-icon">🤖</span><span class="q-choice-title">Agent IA autonome</span><span class="q-choice-desc">Décisions sans humain</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt3" value="integration_outils"><label class="q-choice-label" for="qbt3"><span class="q-choice-icon">🔗</span><span class="q-choice-title">Connecter des outils</span><span class="q-choice-desc">CRM, ERP, apps silotés</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt4" value="chatbot"><label class="q-choice-label" for="qbt4"><span class="q-choice-icon">💬</span><span class="q-choice-title">Chatbot / Assistant IA</span><span class="q-choice-desc">SAV, qualification</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt5" value="reporting"><label class="q-choice-label" for="qbt5"><span class="q-choice-icon">📊</span><span class="q-choice-title">Reporting automatique</span><span class="q-choice-desc">KPIs, tableaux de bord</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt6" value="traitement_docs"><label class="q-choice-label" for="qbt6"><span class="q-choice-icon">📄</span><span class="q-choice-title">Traitement documents</span><span class="q-choice-desc">Factures, contrats</span></label></div>
-            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt7" value="autre"><label class="q-choice-label" for="qbt7"><span class="q-choice-icon">💡</span><span class="q-choice-title">Autre / Je ne sais pas</span><span class="q-choice-desc">On vous guide</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt1" value="automatisation_taches"><label class="q-choice-label" for="qbt1"><span class="q-choice-icon">⚙️</span><span class="q-choice-title">Automatiser des tâches</span><span class="q-choice-desc">Répétitives, chronophages</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt2" value="agent_ia"><label class="q-choice-label" for="qbt2"><span class="q-choice-icon">🤖</span><span class="q-choice-title">Agent IA autonome</span><span class="q-choice-desc">Décisions sans humain</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt3" value="integration_outils"><label class="q-choice-label" for="qbt3"><span class="q-choice-icon">🔗</span><span class="q-choice-title">Connecter des outils</span><span class="q-choice-desc">CRM, ERP, apps silotés</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt4" value="chatbot"><label class="q-choice-label" for="qbt4"><span class="q-choice-icon">💬</span><span class="q-choice-title">Chatbot / Assistant IA</span><span class="q-choice-desc">SAV, qualification</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt5" value="reporting"><label class="q-choice-label" for="qbt5"><span class="q-choice-icon">📊</span><span class="q-choice-title">Reporting automatique</span><span class="q-choice-desc">KPIs, tableaux de bord</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt6" value="traitement_docs"><label class="q-choice-label" for="qbt6"><span class="q-choice-icon">📄</span><span class="q-choice-title">Traitement documents</span><span class="q-choice-desc">Factures, contrats</span></label></div>
+            <div class="q-choice-card"><input type="checkbox" id="qbt7" value="autre"><label class="q-choice-label" for="qbt7"><span class="q-choice-icon">💡</span><span class="q-choice-title">Autre / Je ne sais pas</span><span class="q-choice-desc">On vous guide</span></label></div>
           </div>
         </div>
         <div class="q-field-group">
@@ -1002,13 +1002,9 @@ select.q-control option{background:#fff;}
           </div>
           <div class="q-scale-ends"><span>Mineur, ça attendra</span><span>Critique, on perd de l'argent</span></div>
         </div>
-        <div class="q-field-group"><label class="q-field-label">Format de contact préféré</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qContact" id="qcp1" value="appel_video"><label class="q-chip-label" for="qcp1">📹 Appel vidéo</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp2" value="appel_tel"><label class="q-chip-label" for="qcp2">📞 Téléphone</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp3" value="email_retour"><label class="q-chip-label" for="qcp3">📧 Email d'abord</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp4" value="whatsapp"><label class="q-chip-label" for="qcp4">💬 WhatsApp</label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Format de contact préféré</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qContact" id="qcp2" value="appel_tel"><label class="q-chip-label" for="qcp2">📞 Téléphone</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp3" value="email_retour"><label class="q-chip-label" for="qcp3">📧 Email d'abord</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp4" value="whatsapp"><label class="q-chip-label" for="qcp4">💬 WhatsApp</label></div></div></div>
         <div class="q-field-group"><label class="q-field-label">Disponibilités préférées</label><input type="text" class="q-control" id="qDispo" placeholder="Ex : Mardi et jeudi matin à partir de 9h"></div>
-        <div style="background:var(--orange-bg);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius);padding:20px 22px;margin-top:28px;">
-          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:6px;">Votre diagnostic sera envoyé à</div>
-          <div style="font-weight:700;font-size:18px;">etbf.ai@gmail.com</div>
-          <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Notre équipe vous répond sous 24h avec un plan d'action personnalisé.</div>
-        </div>
+        
         <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd7"></div><button class="q-btn-next q-btn-submit" onclick="qSubmit()">Envoyer mon diagnostic 🚀</button></div></div>
       </div>
 
@@ -1032,7 +1028,7 @@ select.q-control option{background:#fff;}
     </div>
     <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#services">Agents IA autonomes</a></li><li><a href="#services">Automatisation workflows</a></li><li><a href="#services">Chatbots intelligents</a></li><li><a href="#services">Reporting automatique</a></li><li><a href="#services">Traitement documents</a></li></ul></div>
     <div class="footer-col"><h4>Entreprise</h4><ul class="footer-links"><li><a href="#pourquoi">Notre méthode</a></li><li><a href="#temoignages">Témoignages</a></li><li><a href="#cas">Cas concrets</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:etbf.ai@gmail.com">etbf.ai@gmail.com</a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#c2a7b6a0a4eca3ab82a5afa3abaeeca1adaf"><span class="__cf_email__" data-cfemail="f396879195dd929ab3949e929a9fdd909c9e">[email&#160;protected]</span></a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 <strong>ETBF</strong> · Tous droits réservés</div>
@@ -1042,7 +1038,7 @@ select.q-control option{background:#fff;}
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 // ══ QUESTIONNAIRE ══════════════════════════════════════
 const Q_TOTAL = 7;
@@ -1089,7 +1085,7 @@ async function qSubmit(){
   const d={
     prenom:qv('qPrenom'),nom:qv('qNom'),email:qv('qEmail'),tel:qv('qTel'),
     societe:qv('qSociete'),secteur:qv('qSecteur'),poste:qv('qPoste'),taille:qv('qTaille'),ca:qv('qCa'),
-    besoin:qRadio('qBesoin'),probleme:qv('qProbleme'),temps:qv('qTemps'),nb:qv('qNbPersonnes'),
+    besoin:qChecked(['qbt1','qbt2','qbt3','qbt4','qbt5','qbt6','qbt7']),probleme:qv('qProbleme'),temps:qv('qTemps'),nb:qv('qNbPersonnes'),
     entrees:qChecked(['qe1','qe2','qe3','qe4','qe5','qe6','qe7','qe8']),
     entree_detail:qv('qEntreeDetail'),
     traitement:qChecked(['qt1','qt2','qt3','qt4','qt5','qt6']),
@@ -1272,9 +1268,4 @@ async function handleFormSubmit(e) {
     alert('Erreur réseau. Veuillez réessayer.');
   }
 }
-const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';document.head.appendChild(st);
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
-</script>
-</body>
-</html>
+const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%
