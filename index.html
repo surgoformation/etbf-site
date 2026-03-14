@@ -184,9 +184,9 @@ section { padding: 96px 60px; }
 .roi-range { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: #e5e7eb; border-radius: 2px; outline: none; margin-bottom: 6px; }
 .roi-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--orange); cursor: none; box-shadow: 0 0 0 3px rgba(245,158,11,.2); }
 .roi-val { font-size: 13px; font-weight: 600; color: var(--black); text-align: right; }
-.roi-result { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
-.roi-result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: 6px; }
-.roi-result-value { font-size: 46px; font-weight: 800; color: var(--orange); letter-spacing: -2px; line-height: 1; display: block; margin-bottom: 4px; }
+.roi-result { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); display:flex; flex-direction:column; gap:6px; }
+.roi-result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); display:block; }
+.roi-result-value { font-size: 46px; font-weight: 800; color: var(--orange); letter-spacing: -2px; line-height: 1; display: block; }
 .roi-result-sub { font-size: 13px; color: var(--text-muted); }
 .roi-result-sub strong { color: var(--black); }
 
@@ -427,7 +427,7 @@ select.q-control option{background:#fff;}
 .q-choice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:4px;}
 .q-choice-card{position:relative;}
 .q-choice-card input{position:absolute;opacity:0;width:0;height:0;}
-.q-choice-label{display:flex;flex-direction:column;gap:5px;padding:14px 16px;background:var(--bg-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all .2s;user-select:none;}
+.q-choice-label{display:flex;flex-direction:column;gap:5px;padding:14px 16px;background:var(--bg-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all .2s;user-select:none;height:100%;}
 .q-choice-label:hover{border-color:rgba(245,158,11,.4);}
 .q-choice-card input:checked + .q-choice-label{border-color:var(--orange);background:var(--orange-bg);}
 .q-choice-icon{font-size:20px;margin-bottom:2px;}
@@ -603,7 +603,12 @@ select.q-control option{background:#fff;}
         <div class="roi-input-group"><label class="roi-label">Nombre d'employés concernés</label><input type="range" class="roi-range" id="empRange" min="1" max="50" value="5"><div class="roi-val"><span id="empVal">5</span> personnes</div></div>
         <div class="roi-input-group"><label class="roi-label">Heures de tâches répétitives par semaine</label><input type="range" class="roi-range" id="hoursRange" min="1" max="20" value="6"><div class="roi-val"><span id="hoursVal">6</span> heures / pers.</div></div>
         <div class="roi-input-group"><label class="roi-label">Coût horaire moyen (€)</label><input type="range" class="roi-range" id="costRange" min="20" max="150" value="45"><div class="roi-val"><span id="costVal">45</span> €/heure</div></div>
-        <div class="roi-result"><div class="roi-result-label">Économies mensuelles estimées</div><span class="roi-result-value" id="roiResult">4 860 €</span><div class="roi-result-sub">soit <strong id="roiAnnual">58 320 €</strong> par an</div></div>
+        <div class="roi-result" id="roiResultBox" style="display:none;">
+          <div class="roi-result-label">Économies mensuelles estimées</div>
+          <span class="roi-result-value" id="roiResult">4 860 €</span>
+          <div class="roi-result-sub">soit <strong id="roiAnnual">58 320 €</strong> par an</div>
+        </div>
+<button onclick="showROI()" id="roiBtn" style="margin-top:18px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--black);color:#fff;font-family:var(--font);font-weight:700;font-size:14px;padding:13px 22px;border:none;border-radius:var(--radius-sm);cursor:none;transition:all .3s;">💡 Calculer mon ROI</button>
       </div>
     </div>
   </div>
@@ -990,7 +995,32 @@ select.q-control option{background:#fff;}
           </div>
           <div class="q-scale-ends"><span>Petite irritation quotidienne</span><span>Ça nous coûte du temps et de l'argent chaque jour</span></div>
         </div>
-        <div class="q-field-group"><label class="q-field-label">Budget envisagé</label><div class="q-choice-grid"><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt1" value="moins_2000"><label class="q-choice-label" for="qbgt1"><span class="q-choice-icon">🌱</span><span class="q-choice-title">< 2 000 €</span><span class="q-choice-desc">Quick win ciblé</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt2" value="2000_5000"><label class="q-choice-label" for="qbgt2"><span class="q-choice-icon">⚡</span><span class="q-choice-title">2 000 – 5 000 €</span><span class="q-choice-desc">Projet solide</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt3" value="5000_15000"><label class="q-choice-label" for="qbgt3"><span class="q-choice-icon">🚀</span><span class="q-choice-title">5 000 – 15 000 €</span><span class="q-choice-desc">Transformation significative</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt4" value="plus_15000"><label class="q-choice-label" for="qbgt4"><span class="q-choice-icon">🏆</span><span class="q-choice-title">> 15 000 €</span><span class="q-choice-desc">Projet d'envergure</span></label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Budget envisagé</label>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px;align-items:stretch;">
+            <div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt1" value="moins_2000"><label class="q-choice-label" for="qbgt1"><span class="q-choice-icon">🌱</span><span class="q-choice-title">< 2 000 €</span><span class="q-choice-desc">Quick win ciblé</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt2" value="2000_5000"><label class="q-choice-label" for="qbgt2"><span class="q-choice-icon">⚡</span><span class="q-choice-title">2 000 – 5 000 €</span><span class="q-choice-desc">Projet solide</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt3" value="5000_15000"><label class="q-choice-label" for="qbgt3"><span class="q-choice-icon">🚀</span><span class="q-choice-title">5 000 – 15 000 €</span><span class="q-choice-desc">Transformation significative</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt4" value="plus_15000"><label class="q-choice-label" for="qbgt4"><span class="q-choice-icon">🏆</span><span class="q-choice-title">> 15 000 €</span><span class="q-choice-desc">Projet d'envergure</span></label></div>
+            <div id="qRoiBox" style="grid-column:span 2;background:var(--orange);border-radius:var(--radius-sm);padding:18px 22px;display:flex;flex-direction:column;justify-content:center;min-height:100%;">
+              <!-- Si ROI calculé -->
+              <div id="qRoiResult" style="display:none;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                  <div>
+                    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:6px;">💡 Votre ROI estimé</div>
+                    <div style="display:flex;align-items:baseline;gap:10px;"><div id="qRoiMonthly" style="font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1;color:#fff;">—</div><div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.8);">/mois</div></div>
+                    <div style="font-size:13px;color:rgba(255,255,255,.85);">économies/mois · soit <strong id="qRoiAnnual" style="color:#fff;">—</strong>/an</div>
+                  </div>
+                  <a href="#pourquoi" onclick="const s=document.getElementById('pourquoi');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});" style="display:inline-flex;align-items:center;gap:6px;flex-shrink:0;background:#fff;color:var(--black);font-family:var(--font);font-weight:700;font-size:11px;padding:8px 14px;border-radius:var(--radius-sm);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);white-space:nowrap;">✏️ Modifier</a>
+                </div>
+              </div>
+              <!-- Si ROI non calculé -->
+              <div id="qRoiEmpty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;height:100%;">
+                <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.9);">Vous n'avez pas encore calculé votre ROI</div>
+                <a href="#pourquoi" onclick="const s=document.getElementById('pourquoi');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});" style="display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--black);font-family:var(--font);font-weight:700;font-size:13px;padding:10px 20px;border-radius:var(--radius-sm);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:all .2s;">💡 Calculer mon ROI</a>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="q-field-group"><label class="q-field-label">Qui décide ?</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qDecideur" id="qd_1" value="moi_seul"><label class="q-chip-label" for="qd_1">Moi seul</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_2" value="avec_dg"><label class="q-chip-label" for="qd_2">Avec la DG</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_3" value="avec_equipe"><label class="q-chip-label" for="qd_3">Avec mon équipe</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_4" value="comite"><label class="q-chip-label" for="qd_4">Comité de direction</label></div></div></div>
         <div class="q-field-group"><label class="q-field-label">Contraintes particulières</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qc1" value="RGPD"><label class="q-chip-label" for="qc1">RGPD</label></div><div class="q-chip"><input type="checkbox" id="qc2" value="hebergement_fr"><label class="q-chip-label" for="qc2">Hébergement France/Europe</label></div><div class="q-chip"><input type="checkbox" id="qc3" value="SI_interne"><label class="q-chip-label" for="qc3">SI interne complexe</label></div><div class="q-chip"><input type="checkbox" id="qc4" value="reglementation"><label class="q-chip-label" for="qc4">Réglementation sectorielle</label></div><div class="q-chip"><input type="checkbox" id="qc5" value="aucune"><label class="q-chip-label" for="qc5">Aucune</label></div></div></div>
         <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd6"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
@@ -1065,7 +1095,14 @@ function qUpdateUI(scroll) {
   if(scroll) document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function qNext(){if(qCurrent<Q_TOTAL){qCurrent++;qUpdateUI(true);}}
+function qNext(){
+  if(qCurrent<Q_TOTAL){
+    qCurrent++;
+    qUpdateUI(true);
+    // Afficher le ROI à l'étape 6
+    if(qCurrent===6){ qRefreshROIBox(); }
+  }
+}
 function qPrev(){if(qCurrent>1){qCurrent--;qUpdateUI(true);}}
 qUpdateUI(false);
 
@@ -1204,15 +1241,41 @@ const so=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){animCoun
 so.observe(document.querySelector('.hero-stats'));
 
 // ROI
+let roiMonthly = 0;
 function updateROI(){
   const e=+document.getElementById('empRange').value,h=+document.getElementById('hoursRange').value,c=+document.getElementById('costRange').value;
   document.getElementById('empVal').textContent=e;document.getElementById('hoursVal').textContent=h;document.getElementById('costVal').textContent=c;
-  const m=e*h*4.33*c*.75;
-  document.getElementById('roiResult').textContent=m.toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
-  document.getElementById('roiAnnual').textContent=(m*12).toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
+  roiMonthly=e*h*4.33*c*.75;
+  const rr=document.getElementById('roiResult');
+  const ra=document.getElementById('roiAnnual');
+  if(rr)rr.textContent=roiMonthly.toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
+  if(ra)ra.textContent=(roiMonthly*12).toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
+  qRefreshROIBox();
 }
-['empRange','hoursRange','costRange'].forEach(id=>document.getElementById(id).addEventListener('input',updateROI));
-updateROI();
+function showROI(){
+  const box=document.getElementById('roiResultBox');
+  const btn=document.getElementById('roiBtn');
+  if(box)box.style.display='flex';
+  if(btn)btn.style.display='none';
+}
+function qRefreshROIBox(){
+  const result=document.getElementById('qRoiResult');
+  const empty=document.getElementById('qRoiEmpty');
+  const monthly=document.getElementById('qRoiMonthly');
+  const annual=document.getElementById('qRoiAnnual');
+  if(!result||!empty)return;
+  if(roiMonthly>0){
+    result.style.display='block';
+    empty.style.display='none';
+    if(monthly)monthly.textContent=roiMonthly.toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
+    if(annual)annual.textContent=(roiMonthly*12).toLocaleString('fr-FR',{maximumFractionDigits:0})+' €';
+  } else {
+    result.style.display='none';
+    empty.style.display='flex';
+  }
+}
+['empRange','hoursRange','costRange'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',updateROI);});
+if(document.getElementById('empRange'))updateROI();
 
 // FAQ
 function toggleFaq(btn){const item=btn.closest('.faq-item');const was=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open');}
