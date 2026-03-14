@@ -974,20 +974,8 @@ select.q-control option{background:#fff;}
         <div class="q-step-label"><span class="q-step-dot"></span> Étape 6 — Budget & Décision</div>
         <h3 class="q-step-title">Le cadre<br>de la décision.</h3>
         <p class="q-step-sub">Pour calibrer notre proposition et vous faire une offre adaptée.</p>
-        <div class="q-field-group"><label class="q-field-label">Budget envisagé</label><div class="q-choice-grid"><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt1" value="moins_2000"><label class="q-choice-label" for="qbgt1"><span class="q-choice-icon">🌱</span><span class="q-choice-title">< 2 000 €</span><span class="q-choice-desc">Quick win ciblé</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt2" value="2000_5000"><label class="q-choice-label" for="qbgt2"><span class="q-choice-icon">⚡</span><span class="q-choice-title">2 000 – 5 000 €</span><span class="q-choice-desc">Projet solide</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt3" value="5000_15000"><label class="q-choice-label" for="qbgt3"><span class="q-choice-icon">🚀</span><span class="q-choice-title">5 000 – 15 000 €</span><span class="q-choice-desc">Transformation significative</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt4" value="plus_15000"><label class="q-choice-label" for="qbgt4"><span class="q-choice-icon">🏆</span><span class="q-choice-title">> 15 000 €</span><span class="q-choice-desc">Projet d'envergure</span></label></div></div></div>
-        <div class="q-field-group"><label class="q-field-label">Qui décide ?</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qDecideur" id="qd_1" value="moi_seul"><label class="q-chip-label" for="qd_1">Moi seul</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_2" value="avec_dg"><label class="q-chip-label" for="qd_2">Avec la DG</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_3" value="avec_equipe"><label class="q-chip-label" for="qd_3">Avec mon équipe</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_4" value="comite"><label class="q-chip-label" for="qd_4">Comité de direction</label></div></div></div>
-        <div class="q-field-group"><label class="q-field-label">Contraintes particulières</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qc1" value="RGPD"><label class="q-chip-label" for="qc1">RGPD</label></div><div class="q-chip"><input type="checkbox" id="qc2" value="hebergement_fr"><label class="q-chip-label" for="qc2">Hébergement France/Europe</label></div><div class="q-chip"><input type="checkbox" id="qc3" value="SI_interne"><label class="q-chip-label" for="qc3">SI interne complexe</label></div><div class="q-chip"><input type="checkbox" id="qc4" value="reglementation"><label class="q-chip-label" for="qc4">Réglementation sectorielle</label></div><div class="q-chip"><input type="checkbox" id="qc5" value="aucune"><label class="q-chip-label" for="qc5">Aucune</label></div></div></div>
-        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd6"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
-      </div>
-
-      <!-- STEP 7 -->
-      <div class="q-step" id="qs-7">
-        <div class="q-step-label"><span class="q-step-dot"></span> Étape 7 — Dernière ligne droite</div>
-        <h3 class="q-step-title">Y a-t-il autre chose<br><span style="color:var(--orange)">à nous dire ?</span></h3>
-        <p class="q-step-sub">Un espace libre pour tout ce qui n'entre pas dans les cases précédentes.</p>
-        <div class="q-field-group"><label class="q-field-label">Informations complémentaires</label><textarea class="q-control" id="qComplement" placeholder="Contexte projet, tentatives précédentes, contraintes cachées, exemples concrets…" style="min-height:140px;" oninput="qcc(this,'qcc_comp')" maxlength="1000"></textarea><div class="q-char-count"><span id="qcc_comp">0</span>/1000</div></div>
-        <div class="q-field-group">
-          <label class="q-field-label">Niveau de douleur (1 à 10)</label>
+                <div class="q-field-group">
+          <label class="q-field-label">Quel est l'impact de ce problème sur votre activité ?</label>
           <div class="q-scale">
             <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl1" value="1"><label class="q-scale-lbl" for="qdl1">1</label></div>
             <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl2" value="2"><label class="q-scale-lbl" for="qdl2">2</label></div>
@@ -1000,8 +988,20 @@ select.q-control option{background:#fff;}
             <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl9" value="9"><label class="q-scale-lbl" for="qdl9">9</label></div>
             <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl10" value="10"><label class="q-scale-lbl" for="qdl10">10</label></div>
           </div>
-          <div class="q-scale-ends"><span>Mineur, ça attendra</span><span>Critique, on perd de l'argent</span></div>
+          <div class="q-scale-ends"><span>Petite irritation quotidienne</span><span>Ça nous coûte du temps et de l'argent chaque jour</span></div>
         </div>
+        <div class="q-field-group"><label class="q-field-label">Budget envisagé</label><div class="q-choice-grid"><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt1" value="moins_2000"><label class="q-choice-label" for="qbgt1"><span class="q-choice-icon">🌱</span><span class="q-choice-title">< 2 000 €</span><span class="q-choice-desc">Quick win ciblé</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt2" value="2000_5000"><label class="q-choice-label" for="qbgt2"><span class="q-choice-icon">⚡</span><span class="q-choice-title">2 000 – 5 000 €</span><span class="q-choice-desc">Projet solide</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt3" value="5000_15000"><label class="q-choice-label" for="qbgt3"><span class="q-choice-icon">🚀</span><span class="q-choice-title">5 000 – 15 000 €</span><span class="q-choice-desc">Transformation significative</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt4" value="plus_15000"><label class="q-choice-label" for="qbgt4"><span class="q-choice-icon">🏆</span><span class="q-choice-title">> 15 000 €</span><span class="q-choice-desc">Projet d'envergure</span></label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Qui décide ?</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qDecideur" id="qd_1" value="moi_seul"><label class="q-chip-label" for="qd_1">Moi seul</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_2" value="avec_dg"><label class="q-chip-label" for="qd_2">Avec la DG</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_3" value="avec_equipe"><label class="q-chip-label" for="qd_3">Avec mon équipe</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_4" value="comite"><label class="q-chip-label" for="qd_4">Comité de direction</label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Contraintes particulières</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qc1" value="RGPD"><label class="q-chip-label" for="qc1">RGPD</label></div><div class="q-chip"><input type="checkbox" id="qc2" value="hebergement_fr"><label class="q-chip-label" for="qc2">Hébergement France/Europe</label></div><div class="q-chip"><input type="checkbox" id="qc3" value="SI_interne"><label class="q-chip-label" for="qc3">SI interne complexe</label></div><div class="q-chip"><input type="checkbox" id="qc4" value="reglementation"><label class="q-chip-label" for="qc4">Réglementation sectorielle</label></div><div class="q-chip"><input type="checkbox" id="qc5" value="aucune"><label class="q-chip-label" for="qc5">Aucune</label></div></div></div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd6"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="q-step" id="qs-7">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 7 — Dernière ligne droite</div>
+        <h3 class="q-step-title">Y a-t-il autre chose<br><span style="color:var(--orange)">à nous dire ?</span></h3>
+        <p class="q-step-sub">Un espace libre pour tout ce qui n'entre pas dans les cases précédentes.</p>
+        <div class="q-field-group"><label class="q-field-label">Informations complémentaires</label><textarea class="q-control" id="qComplement" placeholder="Contexte projet, tentatives précédentes, contraintes cachées, exemples concrets…" style="min-height:140px;" oninput="qcc(this,'qcc_comp')" maxlength="1000"></textarea><div class="q-char-count"><span id="qcc_comp">0</span>/1000</div></div>
         <div class="q-field-group"><label class="q-field-label">Format de contact préféré</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qContact" id="qcp2" value="appel_tel"><label class="q-chip-label" for="qcp2">📞 Téléphone</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp3" value="email_retour"><label class="q-chip-label" for="qcp3">📧 Email d'abord</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp4" value="whatsapp"><label class="q-chip-label" for="qcp4">💬 WhatsApp</label></div></div></div>
         <div class="q-field-group"><label class="q-field-label">Disponibilités préférées</label><input type="text" class="q-control" id="qDispo" placeholder="Ex : Mardi et jeudi matin à partir de 9h"></div>
         
@@ -1028,7 +1028,7 @@ select.q-control option{background:#fff;}
     </div>
     <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#services">Agents IA autonomes</a></li><li><a href="#services">Automatisation workflows</a></li><li><a href="#services">Chatbots intelligents</a></li><li><a href="#services">Reporting automatique</a></li><li><a href="#services">Traitement documents</a></li></ul></div>
     <div class="footer-col"><h4>Entreprise</h4><ul class="footer-links"><li><a href="#pourquoi">Notre méthode</a></li><li><a href="#temoignages">Témoignages</a></li><li><a href="#cas">Cas concrets</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:etbf.ai@gmail.com">etbf.ai@gmail.com</a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#c3a6b7a1a5eda2aa83a4aea2aaafeda0acae"><span class="__cf_email__" data-cfemail="afcadbcdc981cec6efc8c2cec6c381ccc0c2">[email&#160;protected]</span></a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 <strong>ETBF</strong> · Tous droits réservés</div>
@@ -1038,7 +1038,7 @@ select.q-control option{background:#fff;}
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 // ══ QUESTIONNAIRE ══════════════════════════════════════
 const Q_TOTAL = 7;
