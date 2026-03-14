@@ -1044,7 +1044,7 @@ select.q-control option{background:#fff;}
 const Q_TOTAL = 7;
 let qCurrent = 1;
 
-function qUpdateUI() {
+function qUpdateUI(scroll) {
   document.querySelectorAll('.q-step').forEach((s,i) => { s.classList.toggle('q-active', i+1 === qCurrent); });
   document.getElementById('qStepNum').textContent = qCurrent;
   const pct = ((qCurrent-1)/(Q_TOTAL-1)*100);
@@ -1062,12 +1062,12 @@ function qUpdateUI() {
       }
     }
   }
-  document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
+  if(scroll) document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function qNext(){if(qCurrent<Q_TOTAL){qCurrent++;qUpdateUI();}}
-function qPrev(){if(qCurrent>1){qCurrent--;qUpdateUI();}}
-qUpdateUI();
+function qNext(){if(qCurrent<Q_TOTAL){qCurrent++;qUpdateUI(true);}}
+function qPrev(){if(qCurrent>1){qCurrent--;qUpdateUI(true);}}
+qUpdateUI(false);
 
 function qcc(el,id){document.getElementById(id).textContent=el.value.length;}
 function qv(id){const el=document.getElementById(id);return el?el.value.trim():'';}
