@@ -1028,7 +1028,7 @@ select.q-control option{background:#fff;}
     </div>
     <div class="footer-col"><h4>Services</h4><ul class="footer-links"><li><a href="#services">Agents IA autonomes</a></li><li><a href="#services">Automatisation workflows</a></li><li><a href="#services">Chatbots intelligents</a></li><li><a href="#services">Reporting automatique</a></li><li><a href="#services">Traitement documents</a></li></ul></div>
     <div class="footer-col"><h4>Entreprise</h4><ul class="footer-links"><li><a href="#pourquoi">Notre méthode</a></li><li><a href="#temoignages">Témoignages</a></li><li><a href="#cas">Cas concrets</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#c2a7b6a0a4eca3ab82a5afa3abaeeca1adaf"><span class="__cf_email__" data-cfemail="f396879195dd929ab3949e929a9fdd909c9e">[email&#160;protected]</span></a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul class="footer-links"><li><a href="mailto:etbf.ai@gmail.com">etbf.ai@gmail.com</a></li><li><a href="tel:+33100000000">+33 (0)1 00 00 00 00</a></li><li><a href="#contact" style="color:var(--orange)">Audit gratuit →</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 <strong>ETBF</strong> · Tous droits réservés</div>
@@ -1038,7 +1038,7 @@ select.q-control option{background:#fff;}
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 
 // ══ QUESTIONNAIRE ══════════════════════════════════════
 const Q_TOTAL = 7;
@@ -1166,7 +1166,7 @@ Complément : ${d.complement||'—'}`;
   }
 }
 
-</script><script>
+
 // CURSOR
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -1268,4 +1268,10 @@ async function handleFormSubmit(e) {
     alert('Erreur réseau. Veuillez réessayer.');
   }
 }
-const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%
+const st=document.createElement('style');st.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';document.head.appendChild(st);
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
+</script>
+
+</body>
+</html>
