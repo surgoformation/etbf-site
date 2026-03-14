@@ -404,6 +404,76 @@ footer { background: var(--bg-footer); padding: 60px; }
   .marquee-wrap { display: none; }
   .cas-header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
+
+/* ══ QUESTIONNAIRE ══════════════════════════════════════ */
+.q-step{display:none;animation:qFadeUp .45s cubic-bezier(0.16,1,0.3,1) both;}
+.q-step.q-active{display:block;}
+@keyframes qFadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.q-step-label{display:inline-flex;align-items:center;gap:8px;background:var(--orange-bg);border:1px solid rgba(245,158,11,.25);padding:5px 13px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:18px;}
+.q-step-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);}
+.q-step-title{font-weight:800;font-size:clamp(24px,3.5vw,38px);letter-spacing:-1.5px;line-height:1.08;margin-bottom:10px;}
+.q-step-sub{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:32px;max-width:580px;}
+.q-field-group{margin-bottom:20px;}
+.q-field-label{font-size:13px;font-weight:600;color:var(--black);margin-bottom:8px;display:block;}
+.q-field-label .req{color:var(--orange);}
+.q-field-hint{font-size:12px;color:var(--text-light);margin-top:5px;line-height:1.5;}
+.q-control{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:var(--font);font-size:14px;color:var(--black);outline:none;transition:border-color .2s,box-shadow .2s;}
+.q-control:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(245,158,11,.12);}
+.q-control::placeholder{color:var(--text-light);}
+textarea.q-control{resize:vertical;min-height:110px;}
+select.q-control option{background:#fff;}
+.q-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.q-grid-2{grid-template-columns:1fr;}}
+.q-choice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:4px;}
+.q-choice-card{position:relative;}
+.q-choice-card input{position:absolute;opacity:0;width:0;height:0;}
+.q-choice-label{display:flex;flex-direction:column;gap:5px;padding:14px 16px;background:var(--bg-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all .2s;user-select:none;}
+.q-choice-label:hover{border-color:rgba(245,158,11,.4);}
+.q-choice-card input:checked + .q-choice-label{border-color:var(--orange);background:var(--orange-bg);}
+.q-choice-icon{font-size:20px;margin-bottom:2px;}
+.q-choice-title{font-weight:700;font-size:14px;}
+.q-choice-desc{font-size:12px;color:var(--text-muted);line-height:1.4;}
+.q-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.q-chip{position:relative;}
+.q-chip input{position:absolute;opacity:0;width:0;height:0;}
+.q-chip-label{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg-white);border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;user-select:none;}
+.q-chip-label:hover{border-color:rgba(245,158,11,.4);color:var(--black);}
+.q-chip input:checked + .q-chip-label{border-color:var(--orange);background:var(--orange-bg);color:var(--black);}
+.q-flow-wrap{background:var(--bg-white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.q-flow-row{display:flex;gap:14px;margin-bottom:20px;}
+.q-flow-row:last-child{margin-bottom:0;}
+.q-flow-badge{width:32px;height:32px;min-width:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;margin-top:2px;}
+.q-flow-in{background:#3b82f6;}.q-flow-proc{background:var(--orange);}.q-flow-out{background:#22c55e;}
+.q-flow-content{flex:1;}
+.q-flow-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.q-flow-in-c{color:#3b82f6;}.q-flow-proc-c{color:var(--orange-dark);}.q-flow-out-c{color:#16a34a;}
+.q-flow-line{width:2px;height:20px;background:var(--border);margin-left:15px;margin-bottom:16px;}
+.q-scale{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.q-scale-opt{position:relative;}
+.q-scale-opt input{position:absolute;opacity:0;width:0;height:0;}
+.q-scale-lbl{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--bg-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-weight:700;font-size:15px;transition:all .2s;user-select:none;}
+.q-scale-lbl:hover{border-color:rgba(245,158,11,.4);}
+.q-scale-opt input:checked + .q-scale-lbl{background:var(--orange);border-color:var(--orange);color:#fff;}
+.q-scale-ends{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--text-light);}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.q-btn-prev{display:inline-flex;align-items:center;gap:8px;background:var(--bg-white);color:var(--text-muted);font-family:var(--font);font-weight:600;font-size:14px;padding:12px 20px;border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all .2s;}
+.q-btn-prev:hover{color:var(--black);border-color:#999;}
+.q-btn-next{display:inline-flex;align-items:center;gap:8px;background:var(--black);color:#fff;font-family:var(--font);font-weight:700;font-size:14px;padding:13px 28px;border:none;border-radius:var(--radius-sm);transition:all .3s cubic-bezier(0.16,1,0.3,1);}
+.q-btn-next:hover{background:#1a1a1a;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.q-btn-submit{background:var(--orange);}
+.q-btn-submit:hover{background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,158,11,.35);}
+.q-prog-dots{display:flex;gap:6px;}
+.q-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .4s;}
+.q-dot.done{background:var(--orange-dark);}
+.q-dot.active{background:var(--orange);width:22px;border-radius:100px;}
+.q-divider{border:none;border-top:1px solid var(--border);margin:24px 0;}
+.q-char-count{font-size:11px;color:var(--text-light);text-align:right;margin-top:4px;}
+.q-req-note{font-size:12px;color:var(--text-light);margin-bottom:28px;}
+.q-success{display:none;text-align:center;padding:60px 20px;}
+.q-success-icon{width:80px;height:80px;background:var(--orange-bg);border:2px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:36px;}
+.q-success-title{font-weight:800;font-size:32px;letter-spacing:-1.5px;margin-bottom:12px;}
+.q-success-sub{font-size:15px;color:var(--text-muted);line-height:1.7;max-width:440px;margin:0 auto;}
+
 </style>
 </head>
 <body>
@@ -738,56 +808,215 @@ footer { background: var(--bg-footer); padding: 60px; }
   </div>
 </section>
 
-<!-- ==================== CONTACT — Passez à l'action ==================== -->
-<section class="contact-section" id="contact">
-  <div class="contact-centered">
-    <div class="contact-centered-header">
+<!-- ==================== QUESTIONNAIRE DIAGNOSTIC ==================== -->
+<section class="contact-section" id="contact" style="background:var(--bg-white);">
+  <div style="width:100%;max-width:760px;margin:0 auto;padding:0 24px 80px;">
+    <div style="text-align:center;margin-bottom:44px;">
       <span class="section-label reveal">Passez à l'action</span>
-      <h2 class="section-title reveal reveal-delay-1">Passez à l'action.</h2>
-      <p class="section-sub reveal reveal-delay-2">Partagez-nous vos enjeux. En 48h, vous avez un premier plan d'action concret — sans jargon, sans engagement.</p>
+      <h2 class="section-title reveal reveal-delay-1">Diagnostic gratuit.<br>Réponse sous 24h.</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">7 questions pour cerner votre besoin. Recevez un plan d'action personnalisé — sans jargon, sans engagement.</p>
     </div>
     <div class="reveal reveal-delay-2">
-      <div class="form-box">
-        <div id="contactForm">
-          <!-- Web3Forms : envoie à etbf.ai@gmail.com -->
-          <form onsubmit="handleFormSubmit(event)">
-            <input type="hidden" name="access_key" value="27b1f3d2-a5e3-49d8-ba8b-6c97441b5572">
-            <input type="hidden" name="subject" value="Nouvelle demande ETBF — site web">
-            <input type="checkbox" name="botcheck" style="display:none">
-            <div class="form-grid">
-              <div class="form-group"><label class="form-label">Prénom <span>*</span></label><input type="text" name="prenom" class="form-control" placeholder="Jean" id="fPrenom" required></div>
-              <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-control" placeholder="Dupont" id="fNom"></div>
-              <div class="form-group"><label class="form-label">Email professionnel <span>*</span></label><input type="email" name="email" class="form-control" placeholder="jean@societe.fr" id="fEmail" required></div>
-              <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-control" placeholder="+33 6 00 00 00 00" id="fTel"></div>
-              <div class="form-group form-full"><label class="form-label">Nom de la société <span>*</span></label><input type="text" name="societe" class="form-control" placeholder="Ma Société SAS" id="fSociete" required></div>
-              <div class="form-group"><label class="form-label">Secteur d'activité</label><select name="secteur" class="form-control" id="fSecteur"><option value="">Sélectionnez votre secteur</option><option>E-commerce / Retail</option><option>SaaS / Tech</option><option>Services B2B</option><option>Industrie / Manufacturing</option><option>Immobilier</option><option>Finance / Assurance</option><option>Santé</option><option>Formation / RH</option><option>Autre</option></select></div>
-              <div class="form-group"><label class="form-label">Taille de l'équipe</label><select name="taille" class="form-control" id="fTaille"><option value="">Nombre de collaborateurs</option><option>1–5 personnes</option><option>6–20 personnes</option><option>21–50 personnes</option><option>51–200 personnes</option><option>200+ personnes</option></select></div>
-              <div class="form-group form-full">
-                <label class="form-label" style="margin-bottom:10px;">Budget envisagé</label>
-                <div class="budget-grid">
-                  <div class="budget-option"><input type="radio" name="budget" id="b1" value="moins de 2000€"><label class="budget-label" for="b1">< 2 000€</label></div>
-                  <div class="budget-option"><input type="radio" name="budget" id="b2" value="2000 - 5000€"><label class="budget-label" for="b2">2 000 - 5 000€</label></div>
-                  <div class="budget-option"><input type="radio" name="budget" id="b3" value="5000 - 15000€"><label class="budget-label" for="b3">5 000 - 15 000€</label></div>
-                  <div class="budget-option"><input type="radio" name="budget" id="b4" value="plus de 15000€"><label class="budget-label" for="b4">> 15 000€</label></div>
+      <!-- Progress -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:32px;">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);white-space:nowrap;">Étape <strong id="qStepNum">1</strong> / <strong>7</strong></div>
+        <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div id="qProgressBar" style="height:100%;background:var(--orange);border-radius:2px;width:0%;transition:width .5s ease;"></div></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="q-step q-active" id="qs-1">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 1 — Contexte</div>
+        <h3 class="q-step-title">Votre entreprise<br>en quelques mots.</h3>
+        <p class="q-step-sub">Ces informations nous permettent de comprendre votre contexte avant d'analyser vos besoins.</p>
+        <p class="q-req-note">Les champs marqués <span style="color:var(--orange)">*</span> sont obligatoires.</p>
+        <div class="q-grid-2">
+          <div class="q-field-group"><label class="q-field-label">Prénom <span class="req">*</span></label><input type="text" class="q-control" id="qPrenom" placeholder="Jean"></div>
+          <div class="q-field-group"><label class="q-field-label">Nom <span class="req">*</span></label><input type="text" class="q-control" id="qNom" placeholder="Dupont"></div>
+          <div class="q-field-group"><label class="q-field-label">Email professionnel <span class="req">*</span></label><input type="email" class="q-control" id="qEmail" placeholder="jean@societe.fr"></div>
+          <div class="q-field-group"><label class="q-field-label">Téléphone</label><input type="tel" class="q-control" id="qTel" placeholder="+33 6 00 00 00 00"></div>
+        </div>
+        <div class="q-field-group"><label class="q-field-label">Nom de l'entreprise <span class="req">*</span></label><input type="text" class="q-control" id="qSociete" placeholder="Ma Société SAS"></div>
+        <div class="q-grid-2">
+          <div class="q-field-group"><label class="q-field-label">Secteur d'activité</label><select class="q-control" id="qSecteur"><option value="">Sélectionnez</option><option>E-commerce / Retail</option><option>SaaS / Tech</option><option>Services B2B</option><option>Industrie / Manufacturing</option><option>Immobilier</option><option>Finance / Assurance</option><option>Santé</option><option>Formation / RH</option><option>Marketing / Agence</option><option>Logistique</option><option>Autre</option></select></div>
+          <div class="q-field-group"><label class="q-field-label">Votre poste</label><input type="text" class="q-control" id="qPoste" placeholder="Directeur Général, Ops…"></div>
+          <div class="q-field-group"><label class="q-field-label">Taille de l'équipe</label><select class="q-control" id="qTaille"><option value="">Nb de personnes impactées</option><option>1 personne (moi-même)</option><option>2–5 personnes</option><option>6–20 personnes</option><option>21–50 personnes</option><option>50+ personnes</option></select></div>
+          <div class="q-field-group"><label class="q-field-label">CA annuel (approx.)</label><select class="q-control" id="qCa"><option value="">Fourchette</option><option>< 100 000 €</option><option>100 000 – 500 000 €</option><option>500 000 – 2 M€</option><option>2 – 10 M€</option><option>10 M€+</option></select></div>
+        </div>
+        <div class="q-nav"><div></div><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd1"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="q-step" id="qs-2">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 2 — Le problème</div>
+        <h3 class="q-step-title">Quel est votre<br><span style="color:var(--orange)">défi principal ?</span></h3>
+        <p class="q-step-sub">Identifiez la douleur centrale que vous souhaitez résoudre avec l'automatisation ou l'IA.</p>
+        <div class="q-field-group">
+          <label class="q-field-label">Quel type de besoin vous amène ? <span class="req">*</span></label>
+          <div class="q-choice-grid">
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt1" value="automatisation_taches"><label class="q-choice-label" for="qbt1"><span class="q-choice-icon">⚙️</span><span class="q-choice-title">Automatiser des tâches</span><span class="q-choice-desc">Répétitives, chronophages</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt2" value="agent_ia"><label class="q-choice-label" for="qbt2"><span class="q-choice-icon">🤖</span><span class="q-choice-title">Agent IA autonome</span><span class="q-choice-desc">Décisions sans humain</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt3" value="integration_outils"><label class="q-choice-label" for="qbt3"><span class="q-choice-icon">🔗</span><span class="q-choice-title">Connecter des outils</span><span class="q-choice-desc">CRM, ERP, apps silotés</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt4" value="chatbot"><label class="q-choice-label" for="qbt4"><span class="q-choice-icon">💬</span><span class="q-choice-title">Chatbot / Assistant IA</span><span class="q-choice-desc">SAV, qualification</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt5" value="reporting"><label class="q-choice-label" for="qbt5"><span class="q-choice-icon">📊</span><span class="q-choice-title">Reporting automatique</span><span class="q-choice-desc">KPIs, tableaux de bord</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt6" value="traitement_docs"><label class="q-choice-label" for="qbt6"><span class="q-choice-icon">📄</span><span class="q-choice-title">Traitement documents</span><span class="q-choice-desc">Factures, contrats</span></label></div>
+            <div class="q-choice-card"><input type="radio" name="qBesoin" id="qbt7" value="autre"><label class="q-choice-label" for="qbt7"><span class="q-choice-icon">💡</span><span class="q-choice-title">Autre / Je ne sais pas</span><span class="q-choice-desc">On vous guide</span></label></div>
+          </div>
+        </div>
+        <div class="q-field-group">
+          <label class="q-field-label">Décrivez le problème au quotidien <span class="req">*</span></label>
+          <textarea class="q-control" id="qProbleme" placeholder="Ex : Notre équipe passe 2h par jour à qualifier manuellement les leads et les copier dans HubSpot…" oninput="qcc(this,'qcc_pb')" maxlength="800"></textarea>
+          <div class="q-char-count"><span id="qcc_pb">0</span>/800</div>
+        </div>
+        <div class="q-field-group">
+          <label class="q-field-label">Temps perdu & personnes impactées</label>
+          <div class="q-grid-2">
+            <select class="q-control" id="qTemps"><option value="">Fréquence</option><option>Quelques minutes/jour</option><option>30 min – 1h/jour</option><option>1h – 3h/jour</option><option>3h – 6h/jour</option><option>Une journée/semaine</option><option>Plusieurs jours/semaine</option></select>
+            <select class="q-control" id="qNbPersonnes"><option value="">Combien de personnes</option><option>Juste moi</option><option>2 à 5 personnes</option><option>6 à 20 personnes</option><option>Toute l'entreprise</option></select>
+          </div>
+        </div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd2"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="q-step" id="qs-3">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 3 — Le processus actuel</div>
+        <h3 class="q-step-title">Comment ça marche<br>aujourd'hui ?</h3>
+        <p class="q-step-sub">Plus vous êtes précis, mieux on peut automatiser. Décrivez le flux exact.</p>
+        <div class="q-flow-wrap">
+          <div class="q-flow-row">
+            <div class="q-flow-badge q-flow-in">↓</div>
+            <div class="q-flow-content">
+              <div class="q-flow-lbl q-flow-in-c">📥 Entrée — comment ça arrive</div>
+              <div class="q-field-group" style="margin-bottom:10px;"><label class="q-field-label">Déclencheurs <span class="req">*</span></label>
+                <div class="q-chips">
+                  <div class="q-chip"><input type="checkbox" id="qe1" value="email"><label class="q-chip-label" for="qe1">Email entrant</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe2" value="formulaire"><label class="q-chip-label" for="qe2">Formulaire web</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe3" value="crm"><label class="q-chip-label" for="qe3">CRM (nouveau lead)</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe4" value="commande"><label class="q-chip-label" for="qe4">Commande / achat</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe5" value="document"><label class="q-chip-label" for="qe5">Document / fichier</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe6" value="api"><label class="q-chip-label" for="qe6">API / webhook</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe7" value="manuel"><label class="q-chip-label" for="qe7">Action manuelle</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qe8" value="planifie"><label class="q-chip-label" for="qe8">Planifié (heure/date)</label></div>
                 </div>
               </div>
-              <div class="form-group form-full">
-                <label class="form-label">Décrivez votre besoin <span>*</span></label>
-                <textarea name="message" class="form-control" placeholder="Quels processus voulez-vous automatiser ? Quels sont vos enjeux actuels ? Plus vous êtes précis, mieux nous pouvons vous aider..." id="fMessage" oninput="updateCharCount(this)" required></textarea>
-                <div class="char-count"><span id="charCount">0</span>/500 caractères</div>
+              <div class="q-field-group" style="margin-bottom:0;"><label class="q-field-label">Détail entrée</label><textarea class="q-control" id="qEntreeDetail" placeholder="Ex : Un prospect remplit notre Typeform → email dans Gmail avec nom, email, demande…" style="min-height:70px;" oninput="qcc(this,'qcc_e')" maxlength="500"></textarea><div class="q-char-count"><span id="qcc_e">0</span>/500</div></div>
+            </div>
+          </div>
+          <div class="q-flow-line"></div>
+          <div class="q-flow-row">
+            <div class="q-flow-badge q-flow-proc">⚙</div>
+            <div class="q-flow-content">
+              <div class="q-flow-lbl q-flow-proc-c">⚙️ Traitement — ce qui se passe</div>
+              <div class="q-field-group" style="margin-bottom:10px;"><label class="q-field-label">Qui/quoi traite ? <span class="req">*</span></label>
+                <div class="q-chips">
+                  <div class="q-chip"><input type="checkbox" id="qt1" value="humain"><label class="q-chip-label" for="qt1">Une personne manuellement</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qt2" value="excel"><label class="q-chip-label" for="qt2">Excel / Google Sheets</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qt3" value="logiciel"><label class="q-chip-label" for="qt3">Un logiciel métier</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qt4" value="email_manuel"><label class="q-chip-label" for="qt4">Emails manuels</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qt5" value="copier_coller"><label class="q-chip-label" for="qt5">Copier-coller</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qt6" value="partiel"><label class="q-chip-label" for="qt6">Partiellement automatisé</label></div>
+                </div>
               </div>
+              <div class="q-field-group" style="margin-bottom:0;"><label class="q-field-label">Étapes du traitement <span class="req">*</span></label><textarea class="q-control" id="qTraitementDetail" placeholder="Ex :&#10;1. Ouvrir l'email&#10;2. Copier dans HubSpot&#10;3. Attribuer un commercial&#10;4. Envoyer email de bienvenue" style="min-height:120px;" oninput="qcc(this,'qcc_t')" maxlength="800"></textarea><div class="q-char-count"><span id="qcc_t">0</span>/800</div></div>
             </div>
-            <div class="form-footer">
-              <span class="form-secure">🔒 Données sécurisées · RGPD compliant</span>
-              <button type="submit" class="btn-submit">Envoyer ma demande →</button>
+          </div>
+          <div class="q-flow-line"></div>
+          <div class="q-flow-row">
+            <div class="q-flow-badge q-flow-out">↑</div>
+            <div class="q-flow-content">
+              <div class="q-flow-lbl q-flow-out-c">📤 Sortie — ce qui doit ressortir</div>
+              <div class="q-field-group" style="margin-bottom:10px;"><label class="q-field-label">Résultat attendu <span class="req">*</span></label>
+                <div class="q-chips">
+                  <div class="q-chip"><input type="checkbox" id="qs1" value="email_envoye"><label class="q-chip-label" for="qs1">Email envoyé</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs2" value="notification"><label class="q-chip-label" for="qs2">Notification Slack/SMS</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs3" value="crm_mis_a_jour"><label class="q-chip-label" for="qs3">CRM mis à jour</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs4" value="doc_genere"><label class="q-chip-label" for="qs4">Document généré</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs5" value="rapport"><label class="q-chip-label" for="qs5">Rapport / tableau de bord</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs6" value="tache_creee"><label class="q-chip-label" for="qs6">Tâche créée</label></div>
+                  <div class="q-chip"><input type="checkbox" id="qs7" value="bdd"><label class="q-chip-label" for="qs7">Base de données MAJ</label></div>
+                </div>
+              </div>
+              <div class="q-field-group" style="margin-bottom:0;"><label class="q-field-label">Sortie idéale <span class="req">*</span></label><textarea class="q-control" id="qSortieDetail" placeholder="Ex : Lead créé dans HubSpot, email de bienvenue envoyé en < 2 min, commercial notifié sur Slack…" style="min-height:70px;" oninput="qcc(this,'qcc_s')" maxlength="500"></textarea><div class="q-char-count"><span id="qcc_s">0</span>/500</div></div>
             </div>
-          </form>
+          </div>
         </div>
-        <div class="form-success" id="formSuccess">
-          <span class="success-icon">✅</span>
-          <div class="success-title">Message envoyé !</div>
-          <p class="success-text">Merci pour votre intérêt. Notre équipe vous contactera sous 24h pour discuter de votre projet.</p>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd3"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="q-step" id="qs-4">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 4 — Environnement technique</div>
+        <h3 class="q-step-title">Quels outils<br>utilisez-vous ?</h3>
+        <p class="q-step-sub">Cochez tout ce que votre équipe utilise actuellement.</p>
+        <div class="q-field-group"><label class="q-field-label">CRM & Ventes</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qcrm1" value="HubSpot"><label class="q-chip-label" for="qcrm1">HubSpot</label></div><div class="q-chip"><input type="checkbox" id="qcrm2" value="Salesforce"><label class="q-chip-label" for="qcrm2">Salesforce</label></div><div class="q-chip"><input type="checkbox" id="qcrm3" value="Pipedrive"><label class="q-chip-label" for="qcrm3">Pipedrive</label></div><div class="q-chip"><input type="checkbox" id="qcrm4" value="Notion CRM"><label class="q-chip-label" for="qcrm4">Notion</label></div><div class="q-chip"><input type="checkbox" id="qcrm5" value="Airtable"><label class="q-chip-label" for="qcrm5">Airtable</label></div><div class="q-chip"><input type="checkbox" id="qcrm6" value="Excel/Sheets"><label class="q-chip-label" for="qcrm6">Excel / Sheets</label></div></div></div>
+        <hr class="q-divider">
+        <div class="q-field-group"><label class="q-field-label">Communication & Collaboration</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qcom1" value="Gmail"><label class="q-chip-label" for="qcom1">Gmail</label></div><div class="q-chip"><input type="checkbox" id="qcom2" value="Outlook"><label class="q-chip-label" for="qcom2">Outlook / M365</label></div><div class="q-chip"><input type="checkbox" id="qcom3" value="Slack"><label class="q-chip-label" for="qcom3">Slack</label></div><div class="q-chip"><input type="checkbox" id="qcom4" value="Teams"><label class="q-chip-label" for="qcom4">Microsoft Teams</label></div><div class="q-chip"><input type="checkbox" id="qcom5" value="Notion"><label class="q-chip-label" for="qcom5">Notion</label></div><div class="q-chip"><input type="checkbox" id="qcom6" value="WhatsApp Business"><label class="q-chip-label" for="qcom6">WhatsApp Business</label></div></div></div>
+        <hr class="q-divider">
+        <div class="q-field-group"><label class="q-field-label">E-commerce / Facturation</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qec1" value="Shopify"><label class="q-chip-label" for="qec1">Shopify</label></div><div class="q-chip"><input type="checkbox" id="qec2" value="WooCommerce"><label class="q-chip-label" for="qec2">WooCommerce</label></div><div class="q-chip"><input type="checkbox" id="qec3" value="Stripe"><label class="q-chip-label" for="qec3">Stripe</label></div><div class="q-chip"><input type="checkbox" id="qec4" value="Pennylane"><label class="q-chip-label" for="qec4">Pennylane</label></div><div class="q-chip"><input type="checkbox" id="qec5" value="Sage"><label class="q-chip-label" for="qec5">Sage</label></div></div></div>
+        <hr class="q-divider">
+        <div class="q-field-group"><label class="q-field-label">Automatisation déjà en place</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qauto1" value="Make"><label class="q-chip-label" for="qauto1">Make</label></div><div class="q-chip"><input type="checkbox" id="qauto2" value="Zapier"><label class="q-chip-label" for="qauto2">Zapier</label></div><div class="q-chip"><input type="checkbox" id="qauto3" value="n8n"><label class="q-chip-label" for="qauto3">n8n</label></div><div class="q-chip"><input type="checkbox" id="qauto4" value="Power Automate"><label class="q-chip-label" for="qauto4">Power Automate</label></div><div class="q-chip"><input type="checkbox" id="qauto5" value="Aucun"><label class="q-chip-label" for="qauto5">Aucun</label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Autres outils importants</label><input type="text" class="q-control" id="qOutilsAutres" placeholder="Ex : Sage X3, Doctolib, ERP interne…"></div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd4"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="q-step" id="qs-5">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 5 — Objectifs</div>
+        <h3 class="q-step-title">À quoi ressemble<br><span style="color:var(--orange)">le succès ?</span></h3>
+        <p class="q-step-sub">Des objectifs clairs permettent de mesurer le ROI dès le premier mois.</p>
+        <div class="q-field-group"><label class="q-field-label">Objectifs principaux</label><div class="q-choice-grid"><div class="q-choice-card"><input type="checkbox" id="qobj1" value="gagner_temps"><label class="q-choice-label" for="qobj1"><span class="q-choice-icon">⏱️</span><span class="q-choice-title">Gagner du temps</span><span class="q-choice-desc">Libérer des heures répétitives</span></label></div><div class="q-choice-card"><input type="checkbox" id="qobj2" value="reduire_erreurs"><label class="q-choice-label" for="qobj2"><span class="q-choice-icon">✅</span><span class="q-choice-title">Réduire les erreurs</span><span class="q-choice-desc">Zéro faute de saisie</span></label></div><div class="q-choice-card"><input type="checkbox" id="qobj3" value="scaler"><label class="q-choice-label" for="qobj3"><span class="q-choice-icon">📈</span><span class="q-choice-title">Scaler sans embaucher</span><span class="q-choice-desc">10× plus de volume</span></label></div><div class="q-choice-card"><input type="checkbox" id="qobj4" value="satisfaire_clients"><label class="q-choice-label" for="qobj4"><span class="q-choice-icon">😊</span><span class="q-choice-title">Satisfaire les clients</span><span class="q-choice-desc">Réponses plus rapides</span></label></div><div class="q-choice-card"><input type="checkbox" id="qobj5" value="reduire_couts"><label class="q-choice-label" for="qobj5"><span class="q-choice-icon">💶</span><span class="q-choice-title">Réduire les coûts</span><span class="q-choice-desc">Mêmes résultats, moins de ressources</span></label></div><div class="q-choice-card"><input type="checkbox" id="qobj6" value="standardiser"><label class="q-choice-label" for="qobj6"><span class="q-choice-icon">🔧</span><span class="q-choice-title">Standardiser</span><span class="q-choice-desc">Même qualité, tout le temps</span></label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Urgence</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qUrgence" id="qurg1" value="tres_urgent"><label class="q-chip-label" for="qurg1">🔥 Très urgent (< 2 sem.)</label></div><div class="q-chip"><input type="radio" name="qUrgence" id="qurg2" value="1mois"><label class="q-chip-label" for="qurg2">1 mois</label></div><div class="q-chip"><input type="radio" name="qUrgence" id="qurg3" value="3mois"><label class="q-chip-label" for="qurg3">2–3 mois</label></div><div class="q-chip"><input type="radio" name="qUrgence" id="qurg4" value="flexible"><label class="q-chip-label" for="qurg4">Pas de deadline</label></div></div></div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd5"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="q-step" id="qs-6">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 6 — Budget & Décision</div>
+        <h3 class="q-step-title">Le cadre<br>de la décision.</h3>
+        <p class="q-step-sub">Pour calibrer notre proposition et vous faire une offre adaptée.</p>
+        <div class="q-field-group"><label class="q-field-label">Budget envisagé</label><div class="q-choice-grid"><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt1" value="moins_2000"><label class="q-choice-label" for="qbgt1"><span class="q-choice-icon">🌱</span><span class="q-choice-title">< 2 000 €</span><span class="q-choice-desc">Quick win ciblé</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt2" value="2000_5000"><label class="q-choice-label" for="qbgt2"><span class="q-choice-icon">⚡</span><span class="q-choice-title">2 000 – 5 000 €</span><span class="q-choice-desc">Projet solide</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt3" value="5000_15000"><label class="q-choice-label" for="qbgt3"><span class="q-choice-icon">🚀</span><span class="q-choice-title">5 000 – 15 000 €</span><span class="q-choice-desc">Transformation significative</span></label></div><div class="q-choice-card"><input type="radio" name="qBudget" id="qbgt4" value="plus_15000"><label class="q-choice-label" for="qbgt4"><span class="q-choice-icon">🏆</span><span class="q-choice-title">> 15 000 €</span><span class="q-choice-desc">Projet d'envergure</span></label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Qui décide ?</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qDecideur" id="qd_1" value="moi_seul"><label class="q-chip-label" for="qd_1">Moi seul</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_2" value="avec_dg"><label class="q-chip-label" for="qd_2">Avec la DG</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_3" value="avec_equipe"><label class="q-chip-label" for="qd_3">Avec mon équipe</label></div><div class="q-chip"><input type="radio" name="qDecideur" id="qd_4" value="comite"><label class="q-chip-label" for="qd_4">Comité de direction</label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Contraintes particulières</label><div class="q-chips"><div class="q-chip"><input type="checkbox" id="qc1" value="RGPD"><label class="q-chip-label" for="qc1">RGPD</label></div><div class="q-chip"><input type="checkbox" id="qc2" value="hebergement_fr"><label class="q-chip-label" for="qc2">Hébergement France/Europe</label></div><div class="q-chip"><input type="checkbox" id="qc3" value="SI_interne"><label class="q-chip-label" for="qc3">SI interne complexe</label></div><div class="q-chip"><input type="checkbox" id="qc4" value="reglementation"><label class="q-chip-label" for="qc4">Réglementation sectorielle</label></div><div class="q-chip"><input type="checkbox" id="qc5" value="aucune"><label class="q-chip-label" for="qc5">Aucune</label></div></div></div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd6"></div><button class="q-btn-next" onclick="qNext()">Suivant →</button></div></div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="q-step" id="qs-7">
+        <div class="q-step-label"><span class="q-step-dot"></span> Étape 7 — Dernière ligne droite</div>
+        <h3 class="q-step-title">Y a-t-il autre chose<br><span style="color:var(--orange)">à nous dire ?</span></h3>
+        <p class="q-step-sub">Un espace libre pour tout ce qui n'entre pas dans les cases précédentes.</p>
+        <div class="q-field-group"><label class="q-field-label">Informations complémentaires</label><textarea class="q-control" id="qComplement" placeholder="Contexte projet, tentatives précédentes, contraintes cachées, exemples concrets…" style="min-height:140px;" oninput="qcc(this,'qcc_comp')" maxlength="1000"></textarea><div class="q-char-count"><span id="qcc_comp">0</span>/1000</div></div>
+        <div class="q-field-group">
+          <label class="q-field-label">Niveau de douleur (1 à 10)</label>
+          <div class="q-scale">
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl1" value="1"><label class="q-scale-lbl" for="qdl1">1</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl2" value="2"><label class="q-scale-lbl" for="qdl2">2</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl3" value="3"><label class="q-scale-lbl" for="qdl3">3</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl4" value="4"><label class="q-scale-lbl" for="qdl4">4</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl5" value="5"><label class="q-scale-lbl" for="qdl5">5</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl6" value="6"><label class="q-scale-lbl" for="qdl6">6</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl7" value="7"><label class="q-scale-lbl" for="qdl7">7</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl8" value="8"><label class="q-scale-lbl" for="qdl8">8</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl9" value="9"><label class="q-scale-lbl" for="qdl9">9</label></div>
+            <div class="q-scale-opt"><input type="radio" name="qDouleur" id="qdl10" value="10"><label class="q-scale-lbl" for="qdl10">10</label></div>
+          </div>
+          <div class="q-scale-ends"><span>Mineur, ça attendra</span><span>Critique, on perd de l'argent</span></div>
         </div>
+        <div class="q-field-group"><label class="q-field-label">Format de contact préféré</label><div class="q-chips"><div class="q-chip"><input type="radio" name="qContact" id="qcp1" value="appel_video"><label class="q-chip-label" for="qcp1">📹 Appel vidéo</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp2" value="appel_tel"><label class="q-chip-label" for="qcp2">📞 Téléphone</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp3" value="email_retour"><label class="q-chip-label" for="qcp3">📧 Email d'abord</label></div><div class="q-chip"><input type="radio" name="qContact" id="qcp4" value="whatsapp"><label class="q-chip-label" for="qcp4">💬 WhatsApp</label></div></div></div>
+        <div class="q-field-group"><label class="q-field-label">Disponibilités préférées</label><input type="text" class="q-control" id="qDispo" placeholder="Ex : Mardi et jeudi matin à partir de 9h"></div>
+        <div style="background:var(--orange-bg);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius);padding:20px 22px;margin-top:28px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:6px;">Votre diagnostic sera envoyé à</div>
+          <div style="font-weight:700;font-size:18px;">etbf.ai@gmail.com</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Notre équipe vous répond sous 24h avec un plan d'action personnalisé.</div>
+        </div>
+        <div class="q-nav"><button class="q-btn-prev" onclick="qPrev()">← Retour</button><div style="display:flex;align-items:center;gap:16px;"><div class="q-prog-dots" id="qd7"></div><button class="q-btn-next q-btn-submit" onclick="qSubmit()">Envoyer mon diagnostic 🚀</button></div></div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="q-success" id="qSuccess">
+        <div class="q-success-icon">✓</div>
+        <h3 class="q-success-title">Diagnostic envoyé !</h3>
+        <p class="q-success-sub">Merci. Notre équipe analyse votre questionnaire et vous contacte sous 24h avec un plan d'action personnalisé.</p>
       </div>
     </div>
   </div>
@@ -814,6 +1043,134 @@ footer { background: var(--bg-footer); padding: 60px; }
 
 
 <script>
+
+// ══ QUESTIONNAIRE ══════════════════════════════════════
+const Q_TOTAL = 7;
+let qCurrent = 1;
+
+function qUpdateUI() {
+  document.querySelectorAll('.q-step').forEach((s,i) => { s.classList.toggle('q-active', i+1 === qCurrent); });
+  document.getElementById('qStepNum').textContent = qCurrent;
+  const pct = ((qCurrent-1)/(Q_TOTAL-1)*100);
+  document.getElementById('qProgressBar').style.width = pct + '%';
+  for(let i=1;i<=Q_TOTAL;i++){
+    const dots = document.getElementById('qd'+i);
+    if(dots){
+      dots.innerHTML='';
+      for(let d=1;d<=Q_TOTAL;d++){
+        const div=document.createElement('div');
+        div.className='q-dot';
+        if(d<qCurrent)div.classList.add('done');
+        if(d===qCurrent)div.classList.add('active');
+        dots.appendChild(div);
+      }
+    }
+  }
+  document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function qNext(){if(qCurrent<Q_TOTAL){qCurrent++;qUpdateUI();}}
+function qPrev(){if(qCurrent>1){qCurrent--;qUpdateUI();}}
+qUpdateUI();
+
+function qcc(el,id){document.getElementById(id).textContent=el.value.length;}
+function qv(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function qChecked(ids){return ids.map(id=>document.getElementById(id)).filter(e=>e&&e.checked).map(e=>e.value).join(', ');}
+function qRadio(name){const el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:'—';}
+
+async function qSubmit(){
+  if(!qv('qPrenom')||!qv('qEmail')||!qv('qSociete')){
+    alert('Merci de remplir au minimum votre prénom, email et société.');
+    return;
+  }
+  const btn=document.querySelector('.q-btn-submit');
+  btn.textContent='Envoi en cours…';btn.disabled=true;
+
+  const d={
+    prenom:qv('qPrenom'),nom:qv('qNom'),email:qv('qEmail'),tel:qv('qTel'),
+    societe:qv('qSociete'),secteur:qv('qSecteur'),poste:qv('qPoste'),taille:qv('qTaille'),ca:qv('qCa'),
+    besoin:qRadio('qBesoin'),probleme:qv('qProbleme'),temps:qv('qTemps'),nb:qv('qNbPersonnes'),
+    entrees:qChecked(['qe1','qe2','qe3','qe4','qe5','qe6','qe7','qe8']),
+    entree_detail:qv('qEntreeDetail'),
+    traitement:qChecked(['qt1','qt2','qt3','qt4','qt5','qt6']),
+    traitement_detail:qv('qTraitementDetail'),
+    sorties:qChecked(['qs1','qs2','qs3','qs4','qs5','qs6','qs7']),
+    sortie_detail:qv('qSortieDetail'),
+    crm:qChecked(['qcrm1','qcrm2','qcrm3','qcrm4','qcrm5','qcrm6']),
+    com:qChecked(['qcom1','qcom2','qcom3','qcom4','qcom5','qcom6']),
+    ec:qChecked(['qec1','qec2','qec3','qec4','qec5']),
+    auto:qChecked(['qauto1','qauto2','qauto3','qauto4','qauto5']),
+    outils_autres:qv('qOutilsAutres'),
+    objectifs:qChecked(['qobj1','qobj2','qobj3','qobj4','qobj5','qobj6']),
+    urgence:qRadio('qUrgence'),budget:qRadio('qBudget'),decideur:qRadio('qDecideur'),
+    contraintes:qChecked(['qc1','qc2','qc3','qc4','qc5']),
+    complement:qv('qComplement'),douleur:qRadio('qDouleur'),
+    contact:qRadio('qContact'),dispo:qv('qDispo'),
+  };
+
+  const msg = `=== DIAGNOSTIC ETBF ===
+Date : ${new Date().toLocaleString('fr-FR')}
+
+── CONTACT ──
+Nom : ${d.prenom} ${d.nom} | Email : ${d.email} | Tél : ${d.tel||'—'}
+Société : ${d.societe} | Secteur : ${d.secteur} | Poste : ${d.poste}
+Taille équipe : ${d.taille||'—'} | CA : ${d.ca||'—'}
+
+── PROBLÈME ──
+Besoin : ${d.besoin} | Temps perdu : ${d.temps||'—'} | Personnes : ${d.nb||'—'}
+Description : ${d.probleme}
+
+── PROCESSUS ──
+Entrées : ${d.entrees||'—'}
+Détail : ${d.entree_detail||'—'}
+Traitement : ${d.traitement||'—'}
+Étapes : ${d.traitement_detail||'—'}
+Sorties : ${d.sorties||'—'}
+Sortie idéale : ${d.sortie_detail||'—'}
+
+── OUTILS ──
+CRM : ${d.crm||'—'} | Com : ${d.com||'—'} | E-com : ${d.ec||'—'}
+Automatisation : ${d.auto||'—'} | Autres : ${d.outils_autres||'—'}
+
+── OBJECTIFS & BUDGET ──
+Objectifs : ${d.objectifs||'—'} | Urgence : ${d.urgence}
+Budget : ${d.budget} | Décideur : ${d.decideur}
+Contraintes : ${d.contraintes||'—'}
+
+── DIVERS ──
+Douleur : ${d.douleur}/10 | Contact : ${d.contact} | Dispo : ${d.dispo||'—'}
+Complément : ${d.complement||'—'}`;
+
+  try{
+    const res = await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:'27b1f3d2-a5e3-49d8-ba8b-6c97441b5572',
+        subject:`[ETBF Diagnostic] ${d.prenom} ${d.nom} — ${d.societe}`,
+        from_name:'ETBF Questionnaire',
+        message:msg,
+        email:d.email,
+      })
+    });
+    const r = await res.json();
+    if(r.success){
+      document.querySelectorAll('.q-step').forEach(s=>s.style.display='none');
+      document.getElementById('q-step-indicator') && (document.getElementById('q-step-indicator').style.display='none');
+      document.querySelector('#contact [style*="margin-bottom:44px"]') && (document.querySelector('#contact [style*="margin-bottom:44px"]').style.display='none');
+      document.getElementById('qSuccess').style.display='block';
+      document.getElementById('qProgressBar').style.width='100%';
+    } else {
+      btn.textContent='Envoyer mon diagnostic 🚀';btn.disabled=false;
+      alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+    }
+  } catch(e){
+    btn.textContent='Envoyer mon diagnostic 🚀';btn.disabled=false;
+    alert('Erreur réseau. Veuillez réessayer.');
+  }
+}
+
+</script><script>
 // CURSOR
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -919,6 +1276,5 @@ const st=document.createElement('style');st.textContent='@keyframes shake{0%,100
 // SMOOTH SCROLL
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
 </script>
-
 </body>
 </html>
