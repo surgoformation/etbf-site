@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETBF — Questionnaire de diagnostic</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f1;
+  --white: #ffffff;
+  --black: #0d0d0d;
+  --orange: #f59e0b;
+  --orange-dark: #d97706;
+  --orange-bg: #fffbeb;
+  --muted: #6b7280;
+  --light: #9ca3af;
+  --border: #e5e7eb;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'Space Mono', monospace;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --tr: 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{background:var(--bg);color:var(--black);font-family:var(--font);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;cursor:none;}
+
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--orange);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+#ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(245,158,11,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+a,button,input,select,textarea,label{cursor:none;}
+
+/* PROGRESS BAR TOP */
+#progress-top{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange-dark));z-index:9000;transition:width .5s var(--tr);}
+
+/* HEADER */
+.q-header{width:100%;max-width:760px;padding:44px 24px 0;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.5px;color:var(--black);text-decoration:none;}
+.logo span{color:var(--orange);}
+.step-indicator{font-family:var(--mono);font-size:12px;color:var(--muted);}
+.step-indicator strong{color:var(--black);}
+
+/* MAIN */
+.q-wrap{width:100%;max-width:760px;padding:32px 24px 80px;}
+
+/* STEP */
+.step{display:none;animation:fadeUp .45s var(--tr) both;}
+.step.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* STEP LABEL */
+.step-label{display:inline-flex;align-items:center;gap:8px;background:var(--orange-bg);border:1px solid rgba(245,158,11,.25);padding:5px 13px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:18px;}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);}
+
+/* STEP TITLE */
+.step-title{font-weight:800;font-size:clamp(26px,4vw,42px);letter-spacing:-1.5px;line-height:1.08;margin-bottom:10px;}
+.step-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:580px;}
+
+/* FORM ELEMENTS */
+.field-group{margin-bottom:20px;}
+.field-label{font-size:13px;font-weight:600;color:var(--black);margin-bottom:8px;display:block;}
+.field-label .req{color:var(--orange);}
+.field-hint{font-size:12px;color:var(--light);margin-top:5px;line-height:1.5;}
+.field-control{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:var(--font);font-size:14px;color:var(--black);outline:none;transition:border-color .2s,box-shadow .2s;}
+.field-control:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(245,158,11,.12);}
+.field-control::placeholder{color:var(--light);}
+textarea.field-control{resize:vertical;min-height:110px;}
+select.field-control option{background:#fff;}
+
+/* GRID */
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.form-grid-2{grid-template-columns:1fr;}}
+
+/* CHOICE CARDS */
+.choice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:4px;}
+.choice-card{position:relative;}
+.choice-card input{position:absolute;opacity:0;width:0;height:0;}
+.choice-label{display:flex;flex-direction:column;gap:5px;padding:14px 16px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:none;transition:all .2s;user-select:none;}
+.choice-label:hover{border-color:rgba(245,158,11,.4);}
+.choice-card input:checked + .choice-label{border-color:var(--orange);background:var(--orange-bg);}
+.choice-icon{font-size:20px;margin-bottom:2px;}
+.choice-title{font-weight:700;font-size:14px;}
+.choice-desc{font-size:12px;color:var(--muted);line-height:1.4;}
+
+/* INLINE CHIPS */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.chip-opt{position:relative;}
+.chip-opt input{position:absolute;opacity:0;width:0;height:0;}
+.chip-label{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;font-size:13px;font-weight:500;color:var(--muted);cursor:none;transition:all .2s;user-select:none;}
+.chip-label:hover{border-color:rgba(245,158,11,.4);color:var(--black);}
+.chip-opt input:checked + .chip-label{border-color:var(--orange);background:var(--orange-bg);color:var(--black);}
+
+/* PROCESS FLOW */
+.flow-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.flow-step{display:flex;gap:14px;margin-bottom:20px;}
+.flow-step:last-child{margin-bottom:0;}
+.flow-badge{width:32px;height:32px;min-width:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;margin-top:2px;}
+.flow-in{background:#3b82f6;}
+.flow-proc{background:var(--orange);}
+.flow-out{background:#22c55e;}
+.flow-step-content{flex:1;}
+.flow-step-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.flow-in-color{color:#3b82f6;}
+.flow-proc-color{color:var(--orange-dark);}
+.flow-out-color{color:#16a34a;}
+.flow-line{width:2px;height:20px;background:var(--border);margin-left:15px;margin-bottom:16px;}
+
+/* SCALE */
+.scale-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.scale-opt{position:relative;}
+.scale-opt input{position:absolute;opacity:0;width:0;height:0;}
+.scale-label{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-weight:700;font-size:15px;cursor:none;transition:all .2s;user-select:none;}
+.scale-label:hover{border-color:rgba(245,158,11,.4);}
+.scale-opt input:checked + .scale-label{background:var(--orange);border-color:var(--orange);color:#fff;}
+.scale-ends{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--light);}
+
+/* NAV BUTTONS */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.btn-prev{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--muted);font-family:var(--font);font-weight:600;font-size:14px;padding:12px 20px;border:1.5px solid var(--border);border-radius:var(--radius-sm);cursor:none;transition:all .2s;}
+.btn-prev:hover{color:var(--black);border-color:#999;}
+.btn-next{display:inline-flex;align-items:center;gap:8px;background:var(--black);color:#fff;font-family:var(--font);font-weight:700;font-size:14px;padding:13px 28px;border:none;border-radius:var(--radius-sm);cursor:none;transition:all var(--tr);}
+.btn-next:hover{background:#1a1a1a;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.btn-submit-final{background:var(--orange);}
+.btn-submit-final:hover{background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,158,11,.35);}
+
+/* PROGRESS DOTS */
+.progress-dots{display:flex;gap:6px;}
+.prog-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .4s;}
+.prog-dot.done{background:var(--orange-dark);}
+.prog-dot.active{background:var(--orange);width:22px;border-radius:100px;}
+
+/* SECTION DIVIDER */
+.divider{border:none;border-top:1px solid var(--border);margin:24px 0;}
+.section-mini-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:14px;display:block;}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:80px 20px;}
+.success-icon-wrap{width:80px;height:80px;background:var(--orange-bg);border:2px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:36px;}
+.success-title{font-weight:800;font-size:36px;letter-spacing:-1.5px;margin-bottom:12px;}
+.success-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 32px;}
+.btn-print{display:inline-flex;align-items:center;gap:8px;background:var(--black);color:#fff;font-family:var(--font);font-weight:600;font-size:14px;padding:13px 24px;border:none;border-radius:var(--radius-sm);cursor:none;transition:all var(--tr);}
+.btn-print:hover{background:#222;transform:translateY(-2px);}
+
+/* TOOLTIP */
+.tooltip-wrap{position:relative;display:inline-block;margin-left:6px;}
+.tooltip-icon{width:16px;height:16px;border-radius:50%;background:var(--border);color:var(--muted);font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;}
+.tooltip-text{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:var(--black);color:#fff;font-size:12px;padding:8px 12px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10;line-height:1.5;max-width:220px;white-space:normal;text-align:center;}
+.tooltip-wrap:hover .tooltip-text{opacity:1;}
+
+/* CHAR COUNT */
+.char-count{font-size:11px;color:var(--light);text-align:right;margin-top:4px;}
+.req-note{font-size:12px;color:var(--light);margin-bottom:28px;}
+
+/* TRANSITION BOX */
+.transition-box{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:28px 30px;margin-bottom:28px;display:flex;align-items:flex-start;gap:18px;}
+.transition-icon{font-size:32px;flex-shrink:0;}
+.transition-title{font-weight:700;font-size:17px;margin-bottom:6px;}
+.transition-text{font-size:14px;color:var(--muted);line-height:1.7;}
+.transition-steps{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+.t-step{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;}
+.t-step-badge{width:24px;height:24px;min-width:24px;background:var(--orange-bg);border:1px solid rgba(245,158,11,.3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--orange-dark);}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="ring"></div>
+<div id="progress-top" style="width:0%"></div>
+
+<header class="q-header">
+  <a href="/" class="logo">ET<span>BF</span></a>
+  <div class="step-indicator">Étape <strong id="stepNum">1</strong> / <strong>7</strong></div>
+</header>
+
+<main class="q-wrap">
+
+<!-- STEP 1 -->
+<div class="step active" id="step-1">
+  <div class="step-label"><span class="step-dot"></span> Étape 1 — Contexte</div>
+  <h1 class="step-title">Votre entreprise<br>en quelques mots.</h1>
+  <p class="step-sub">Ces informations nous permettent de comprendre votre contexte avant d'analyser vos besoins d'automatisation.</p>
+  <p class="req-note">Les champs marqués <span style="color:var(--orange)">*</span> sont obligatoires.</p>
+
+  <div class="form-grid-2">
+    <div class="field-group">
+      <label class="field-label">Prénom <span class="req">*</span></label>
+      <input type="text" class="field-control" id="prenom" placeholder="Jean" required>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Nom <span class="req">*</span></label>
+      <input type="text" class="field-control" id="nom" placeholder="Dupont" required>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Email professionnel <span class="req">*</span></label>
+      <input type="email" class="field-control" id="email" placeholder="jean@societe.fr" required>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Téléphone</label>
+      <input type="tel" class="field-control" id="tel" placeholder="+33 6 00 00 00 00">
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Nom de l'entreprise <span class="req">*</span></label>
+    <input type="text" class="field-control" id="societe" placeholder="Ma Société SAS" required>
+  </div>
+
+  <div class="form-grid-2">
+    <div class="field-group">
+      <label class="field-label">Secteur d'activité <span class="req">*</span></label>
+      <select class="field-control" id="secteur" required>
+        <option value="">Sélectionnez votre secteur</option>
+        <option>E-commerce / Retail</option>
+        <option>SaaS / Tech</option>
+        <option>Services B2B</option>
+        <option>Industrie / Manufacturing</option>
+        <option>Immobilier</option>
+        <option>Finance / Assurance</option>
+        <option>Santé</option>
+        <option>Formation / RH</option>
+        <option>Marketing / Agence</option>
+        <option>Juridique / Comptabilité</option>
+        <option>Logistique</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Votre poste / fonction <span class="req">*</span></label>
+      <input type="text" class="field-control" id="poste" placeholder="Directeur Général, Responsable Ops…" required>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Taille de l'équipe concernée</label>
+      <select class="field-control" id="taille">
+        <option value="">Nombre de personnes impactées</option>
+        <option>1 personne (moi-même)</option>
+        <option>2–5 personnes</option>
+        <option>6–20 personnes</option>
+        <option>21–50 personnes</option>
+        <option>50+ personnes</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Chiffre d'affaires annuel (approx.)</label>
+      <select class="field-control" id="ca">
+        <option value="">Sélectionnez une fourchette</option>
+        <option>< 100 000 €</option>
+        <option>100 000 – 500 000 €</option>
+        <option>500 000 – 2 M€</option>
+        <option>2 – 10 M€</option>
+        <option>10 M€+</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="q-nav">
+    <div></div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots1"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step-2">
+  <div class="step-label"><span class="step-dot"></span> Étape 2 — Le problème</div>
+  <h1 class="step-title">Quel est votre<br><span style="color:var(--orange)">défi principal ?</span></h1>
+  <p class="step-sub">Identifiez la douleur centrale que vous souhaitez résoudre avec l'automatisation ou l'IA.</p>
+
+  <div class="field-group">
+    <label class="field-label">Quel type de besoin vous amène ? <span class="req">*</span></label>
+    <div class="choice-grid">
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt1" value="automatisation_taches"><label class="choice-label" for="bt1"><span class="choice-icon">⚙️</span><span class="choice-title">Automatiser des tâches</span><span class="choice-desc">Répétitives, chronophages, manuelles</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt2" value="agent_ia"><label class="choice-label" for="bt2"><span class="choice-icon">🤖</span><span class="choice-title">Agent IA autonome</span><span class="choice-desc">Prendre des décisions, agir sans humain</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt3" value="integration_outils"><label class="choice-label" for="bt3"><span class="choice-icon">🔗</span><span class="choice-title">Connecter des outils</span><span class="choice-desc">CRM, ERP, apps métiers silotés</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt4" value="chatbot"><label class="choice-label" for="bt4"><span class="choice-icon">💬</span><span class="choice-title">Chatbot / Assistant IA</span><span class="choice-desc">SAV, qualification, support interne</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt5" value="reporting"><label class="choice-label" for="bt5"><span class="choice-icon">📊</span><span class="choice-title">Reporting automatique</span><span class="choice-desc">Tableaux de bord, KPIs, alertes</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt6" value="traitement_docs"><label class="choice-label" for="bt6"><span class="choice-icon">📄</span><span class="choice-title">Traitement de documents</span><span class="choice-desc">Factures, contrats, formulaires</span></label></div>
+      <div class="choice-card"><input type="radio" name="besoin_type" id="bt7" value="autre"><label class="choice-label" for="bt7"><span class="choice-icon">💡</span><span class="choice-title">Autre / Je ne sais pas</span><span class="choice-desc">On vous guide dans l'identification</span></label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Décrivez le problème que vous vivez au quotidien <span class="req">*</span>
+      <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-text">Soyez concret : "Je passe 3h par jour à recopier des emails dans le CRM" plutôt que "on manque d'efficacité"</span></span>
+    </label>
+    <textarea class="field-control" id="probleme" placeholder="Ex : Notre équipe commerciale passe 2h par jour à qualifier manuellement les leads entrants depuis notre formulaire web, les copier dans HubSpot, et envoyer un email de bienvenue personnalisé." oninput="cc(this,'cc_pb')" maxlength="800"></textarea>
+    <div class="char-count"><span id="cc_pb">0</span>/800</div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Combien de temps votre équipe perd-elle sur ce problème ?</label>
+    <div class="form-grid-2">
+      <select class="field-control" id="temps_perdu">
+        <option value="">Fréquence</option>
+        <option>Quelques minutes par jour</option>
+        <option>30 min – 1h par jour</option>
+        <option>1h – 3h par jour</option>
+        <option>3h – 6h par jour</option>
+        <option>Une journée entière par semaine</option>
+        <option>Plusieurs jours par semaine</option>
+      </select>
+      <select class="field-control" id="nb_personnes_impactees">
+        <option value="">Combien de personnes concernées</option>
+        <option>Juste moi</option>
+        <option>2 à 5 personnes</option>
+        <option>6 à 20 personnes</option>
+        <option>Toute l'entreprise</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Depuis combien de temps ce problème existe-t-il ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="anciennete" id="anc1" value="recent"><label class="chip-label" for="anc1">Récent (< 6 mois)</label></div>
+      <div class="chip-opt"><input type="radio" name="anciennete" id="anc2" value="1an"><label class="chip-label" for="anc2">~ 1 an</label></div>
+      <div class="chip-opt"><input type="radio" name="anciennete" id="anc3" value="2ans"><label class="chip-label" for="anc3">2 ans ou plus</label></div>
+      <div class="chip-opt"><input type="radio" name="anciennete" id="anc4" value="toujours"><label class="chip-label" for="anc4">Depuis toujours</label></div>
+    </div>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots2"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step-3">
+  <div class="step-label"><span class="step-dot"></span> Étape 3 — Le processus actuel</div>
+  <h1 class="step-title">Comment ça marche<br>aujourd'hui ?</h1>
+  <p class="step-sub">C'est la section la plus importante. Plus vous êtes précis, mieux on peut automatiser. Décrivez le flux exact de votre processus.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-step">
+      <div class="flow-badge flow-in">↓</div>
+      <div class="flow-step-content">
+        <div class="flow-step-label flow-in-color">📥 Entrée — comment ça arrive</div>
+        <div class="field-group" style="margin-bottom:12px;">
+          <label class="field-label">Par où arrivent les données / déclencheurs ? <span class="req">*</span></label>
+          <div class="chips-wrap">
+            <div class="chip-opt"><input type="checkbox" id="e_email" value="email"><label class="chip-label" for="e_email">Email entrant</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_form" value="formulaire"><label class="chip-label" for="e_form">Formulaire web</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_crm" value="crm"><label class="chip-label" for="e_crm">CRM (nouveau lead)</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_cmd" value="commande"><label class="chip-label" for="e_cmd">Commande / achat</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_doc" value="document"><label class="chip-label" for="e_doc">Document / fichier</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_api" value="api"><label class="chip-label" for="e_api">API / webhook</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_manuel" value="manuel"><label class="chip-label" for="e_manuel">Action humaine manuelle</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_heure" value="planifie"><label class="chip-label" for="e_heure">Planifié (heure/date)</label></div>
+            <div class="chip-opt"><input type="checkbox" id="e_autre" value="autre_entree"><label class="chip-label" for="e_autre">Autre</label></div>
+          </div>
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">Décrivez l'entrée en détail</label>
+          <textarea class="field-control" id="entree_detail" placeholder="Ex : Un prospect remplit notre formulaire Typeform → un email arrive dans notre Gmail partagé avec son nom, email, numéro, et sa demande en texte libre." style="min-height:80px;" oninput="cc(this,'cc_e')" maxlength="500"></textarea>
+          <div class="char-count"><span id="cc_e">0</span>/500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-line"></div>
+
+    <div class="flow-step">
+      <div class="flow-badge flow-proc">⚙</div>
+      <div class="flow-step-content">
+        <div class="flow-step-label flow-proc-color">⚙️ Traitement — ce qui se passe actuellement</div>
+        <div class="field-group" style="margin-bottom:12px;">
+          <label class="field-label">Qui/quoi traite actuellement ? <span class="req">*</span></label>
+          <div class="chips-wrap">
+            <div class="chip-opt"><input type="checkbox" id="t_humain" value="humain"><label class="chip-label" for="t_humain">Une personne manuellement</label></div>
+            <div class="chip-opt"><input type="checkbox" id="t_excel" value="excel"><label class="chip-label" for="t_excel">Excel / Google Sheets</label></div>
+            <div class="chip-opt"><input type="checkbox" id="t_logiciel" value="logiciel"><label class="chip-label" for="t_logiciel">Un logiciel métier</label></div>
+            <div class="chip-opt"><input type="checkbox" id="t_email_manu" value="email_manuel"><label class="chip-label" for="t_email_manu">Emails manuels</label></div>
+            <div class="chip-opt"><input type="checkbox" id="t_copier" value="copier_coller"><label class="chip-label" for="t_copier">Copier-coller entre outils</label></div>
+            <div class="chip-opt"><input type="checkbox" id="t_partiel" value="partiel"><label class="chip-label" for="t_partiel">Partiellement automatisé</label></div>
+          </div>
+        </div>
+        <div class="field-group" style="margin-bottom:12px;">
+          <label class="field-label">Décrivez les étapes du traitement <span class="req">*</span>
+            <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-text">Listez toutes les actions faites, dans l'ordre. Soyez exhaustif : c'est exactement ce qu'on va automatiser.</span></span>
+          </label>
+          <textarea class="field-control" id="traitement_detail" placeholder="Ex :&#10;1. Ouvrir l'email du prospect&#10;2. Copier les infos dans HubSpot&#10;3. Attribuer à un commercial&#10;4. Rédiger un email de bienvenue&#10;5. Créer une tâche de relance dans Notion" style="min-height:140px;" oninput="cc(this,'cc_t')" maxlength="800"></textarea>
+          <div class="char-count"><span id="cc_t">0</span>/800</div>
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">Des décisions sont-elles prises en cours de traitement ?</label>
+          <div class="chips-wrap">
+            <div class="chip-opt"><input type="radio" name="decision" id="dec1" value="non"><label class="chip-label" for="dec1">Non, c'est toujours pareil</label></div>
+            <div class="chip-opt"><input type="radio" name="decision" id="dec2" value="simples"><label class="chip-label" for="dec2">Oui, règles simples (si/alors)</label></div>
+            <div class="chip-opt"><input type="radio" name="decision" id="dec3" value="complexes"><label class="chip-label" for="dec3">Oui, décisions complexes</label></div>
+          </div>
+          <div class="field-hint">Si oui, décrivez ces règles de décision ci-dessous</div>
+          <textarea class="field-control" id="regles_decision" placeholder="Ex : Si le prospect est en Île-de-France → assign à Marie. Si le budget < 1000€ → envoyer vers l'offre standard." style="min-height:70px;margin-top:8px;" oninput="cc(this,'cc_r')" maxlength="500"></textarea>
+          <div class="char-count"><span id="cc_r">0</span>/500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-line"></div>
+
+    <div class="flow-step">
+      <div class="flow-badge flow-out">↑</div>
+      <div class="flow-step-content">
+        <div class="flow-step-label flow-out-color">📤 Sortie — ce qui doit ressortir</div>
+        <div class="field-group" style="margin-bottom:12px;">
+          <label class="field-label">Quel est le résultat attendu en sortie ? <span class="req">*</span></label>
+          <div class="chips-wrap">
+            <div class="chip-opt"><input type="checkbox" id="s_email" value="email_envoye"><label class="chip-label" for="s_email">Email envoyé</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_notif" value="notification"><label class="chip-label" for="s_notif">Notification (Slack, SMS…)</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_crm" value="crm_mis_a_jour"><label class="chip-label" for="s_crm">CRM mis à jour</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_doc_gen" value="doc_genere"><label class="chip-label" for="s_doc_gen">Document généré (PDF, devis…)</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_rapport" value="rapport"><label class="chip-label" for="s_rapport">Rapport / tableau de bord</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_task" value="tache_creee"><label class="chip-label" for="s_task">Tâche créée (Notion, Asana…)</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_bdd" value="bdd"><label class="chip-label" for="s_bdd">Base de données mise à jour</label></div>
+            <div class="chip-opt"><input type="checkbox" id="s_autre" value="autre_sortie"><label class="chip-label" for="s_autre">Autre</label></div>
+          </div>
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">Décrivez la sortie idéale <span class="req">*</span></label>
+          <textarea class="field-control" id="sortie_detail" placeholder="Ex : Le lead est automatiquement créé dans HubSpot, un email de bienvenue est envoyé en moins de 2 minutes, le commercial reçoit une notification Slack." style="min-height:80px;" oninput="cc(this,'cc_s')" maxlength="500"></textarea>
+          <div class="char-count"><span id="cc_s">0</span>/500</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Ce processus a-t-il des exceptions ou cas particuliers ?</label>
+    <textarea class="field-control" id="exceptions" placeholder="Ex : Si c'est un partenaire existant, ne pas envoyer l'email de bienvenue. Si la commande dépasse 5000€, une validation humaine est requise." oninput="cc(this,'cc_ex')" maxlength="500"></textarea>
+    <div class="char-count"><span id="cc_ex">0</span>/500</div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Quelle est la fréquence de ce processus ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="frequence" id="f1" value="temps_reel"><label class="chip-label" for="f1">En temps réel</label></div>
+      <div class="chip-opt"><input type="radio" name="frequence" id="f2" value="horaire"><label class="chip-label" for="f2">Toutes les heures</label></div>
+      <div class="chip-opt"><input type="radio" name="frequence" id="f3" value="quotidien"><label class="chip-label" for="f3">Quotidien</label></div>
+      <div class="chip-opt"><input type="radio" name="frequence" id="f4" value="hebdo"><label class="chip-label" for="f4">Hebdomadaire</label></div>
+      <div class="chip-opt"><input type="radio" name="frequence" id="f5" value="mensuel"><label class="chip-label" for="f5">Mensuel</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Volume : combien de fois ce processus se répète-t-il ?</label>
+    <input type="text" class="field-control" id="volume" placeholder="Ex : 50 leads/semaine, 200 commandes/jour…" style="max-width:400px;">
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots3"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" id="step-4">
+  <div class="step-label"><span class="step-dot"></span> Étape 4 — Environnement technique</div>
+  <h1 class="step-title">Quels outils<br>utilisez-vous ?</h1>
+  <p class="step-sub">L'automatisation s'intègre à vos outils existants. Cochez tout ce que votre équipe utilise actuellement.</p>
+
+  <div class="field-group">
+    <label class="field-label">CRM & Ventes</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="crm_hubspot" value="HubSpot"><label class="chip-label" for="crm_hubspot">HubSpot</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_salesforce" value="Salesforce"><label class="chip-label" for="crm_salesforce">Salesforce</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_pipe" value="Pipedrive"><label class="chip-label" for="crm_pipe">Pipedrive</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_zoho" value="Zoho CRM"><label class="chip-label" for="crm_zoho">Zoho CRM</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_notion" value="Notion CRM"><label class="chip-label" for="crm_notion">Notion (CRM)</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_airtable" value="Airtable"><label class="chip-label" for="crm_airtable">Airtable</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_excel" value="Excel/Sheets"><label class="chip-label" for="crm_excel">Excel / Google Sheets</label></div>
+      <div class="chip-opt"><input type="checkbox" id="crm_autre" value="Autre CRM"><label class="chip-label" for="crm_autre">Autre</label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="field-group">
+    <label class="field-label">Communication & Collaboration</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="com_gmail" value="Gmail"><label class="chip-label" for="com_gmail">Gmail</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_outlook" value="Outlook"><label class="chip-label" for="com_outlook">Outlook / Microsoft 365</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_slack" value="Slack"><label class="chip-label" for="com_slack">Slack</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_teams" value="Teams"><label class="chip-label" for="com_teams">Microsoft Teams</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_notion" value="Notion"><label class="chip-label" for="com_notion">Notion</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_whatsapp" value="WhatsApp Business"><label class="chip-label" for="com_whatsapp">WhatsApp Business</label></div>
+      <div class="chip-opt"><input type="checkbox" id="com_wp" value="Google Workspace"><label class="chip-label" for="com_wp">Google Workspace</label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="field-group">
+    <label class="field-label">Gestion de projets & Tâches</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="pm_notion" value="Notion PM"><label class="chip-label" for="pm_notion">Notion</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_asana" value="Asana"><label class="chip-label" for="pm_asana">Asana</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_monday" value="Monday"><label class="chip-label" for="pm_monday">Monday.com</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_trello" value="Trello"><label class="chip-label" for="pm_trello">Trello</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_jira" value="Jira"><label class="chip-label" for="pm_jira">Jira</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_clickup" value="ClickUp"><label class="chip-label" for="pm_clickup">ClickUp</label></div>
+      <div class="chip-opt"><input type="checkbox" id="pm_linear" value="Linear"><label class="chip-label" for="pm_linear">Linear</label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="field-group">
+    <label class="field-label">E-commerce / Facturation</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="ec_shopify" value="Shopify"><label class="chip-label" for="ec_shopify">Shopify</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_woo" value="WooCommerce"><label class="chip-label" for="ec_woo">WooCommerce</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_stripe" value="Stripe"><label class="chip-label" for="ec_stripe">Stripe</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_pennylane" value="Pennylane"><label class="chip-label" for="ec_pennylane">Pennylane</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_quickbooks" value="QuickBooks"><label class="chip-label" for="ec_quickbooks">QuickBooks</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_sage" value="Sage"><label class="chip-label" for="ec_sage">Sage</label></div>
+      <div class="chip-opt"><input type="checkbox" id="ec_sellsy" value="Sellsy"><label class="chip-label" for="ec_sellsy">Sellsy</label></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="field-group">
+    <label class="field-label">Outils d'automatisation déjà utilisés</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="auto_make" value="Make"><label class="chip-label" for="auto_make">Make (Integromat)</label></div>
+      <div class="chip-opt"><input type="checkbox" id="auto_zapier" value="Zapier"><label class="chip-label" for="auto_zapier">Zapier</label></div>
+      <div class="chip-opt"><input type="checkbox" id="auto_n8n" value="n8n"><label class="chip-label" for="auto_n8n">n8n</label></div>
+      <div class="chip-opt"><input type="checkbox" id="auto_power" value="Power Automate"><label class="chip-label" for="auto_power">Power Automate</label></div>
+      <div class="chip-opt"><input type="checkbox" id="auto_aucun" value="Aucun"><label class="chip-label" for="auto_aucun">Aucun pour l'instant</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Autres outils métiers importants à connecter</label>
+    <input type="text" class="field-control" id="outils_autres" placeholder="Ex : Sage X3, Indy, Doctolib, un logiciel RH interne…">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Avez-vous des APIs ou webhooks disponibles ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="api_dispo" id="api1" value="oui_je_sais"><label class="chip-label" for="api1">Oui, je sais les utiliser</label></div>
+      <div class="chip-opt"><input type="radio" name="api_dispo" id="api2" value="oui_pas_sure"><label class="chip-label" for="api2">Oui, mais je ne sais pas</label></div>
+      <div class="chip-opt"><input type="radio" name="api_dispo" id="api3" value="non"><label class="chip-label" for="api3">Non / Je ne sais pas</label></div>
+    </div>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots4"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="step-5">
+  <div class="step-label"><span class="step-dot"></span> Étape 5 — Objectifs</div>
+  <h1 class="step-title">À quoi ressemble<br><span style="color:var(--orange)">le succès ?</span></h1>
+  <p class="step-sub">Définissons ensemble ce que "automatisé avec succès" veut dire pour vous.</p>
+
+  <div class="field-group">
+    <label class="field-label">Quels sont vos objectifs principaux ?</label>
+    <div class="choice-grid">
+      <div class="choice-card"><input type="checkbox" id="obj1" value="gagner_temps"><label class="choice-label" for="obj1"><span class="choice-icon">⏱️</span><span class="choice-title">Gagner du temps</span><span class="choice-desc">Libérer des heures sur les tâches répétitives</span></label></div>
+      <div class="choice-card"><input type="checkbox" id="obj2" value="reduire_erreurs"><label class="choice-label" for="obj2"><span class="choice-icon">✅</span><span class="choice-title">Réduire les erreurs</span><span class="choice-desc">Zéro faute de saisie, zéro oubli</span></label></div>
+      <div class="choice-card"><input type="checkbox" id="obj3" value="scaler"><label class="choice-label" for="obj3"><span class="choice-icon">📈</span><span class="choice-title">Scaler sans embaucher</span><span class="choice-desc">Gérer 10× plus de volume</span></label></div>
+      <div class="choice-card"><input type="checkbox" id="obj4" value="satisfaire_clients"><label class="choice-label" for="obj4"><span class="choice-icon">😊</span><span class="choice-title">Satisfaire les clients</span><span class="choice-desc">Réponses plus rapides, expérience fluide</span></label></div>
+      <div class="choice-card"><input type="checkbox" id="obj5" value="reduire_couts"><label class="choice-label" for="obj5"><span class="choice-icon">💶</span><span class="choice-title">Réduire les coûts</span><span class="choice-desc">Moins de ressources, mêmes résultats</span></label></div>
+      <div class="choice-card"><input type="checkbox" id="obj6" value="standardiser"><label class="choice-label" for="obj6"><span class="choice-icon">🔧</span><span class="choice-title">Standardiser les process</span><span class="choice-desc">Même qualité, tout le temps</span></label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">En combien de temps voulez-vous récupérer votre investissement ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="roi_target" id="roi1" value="1mois"><label class="chip-label" for="roi1">Dès le 1er mois</label></div>
+      <div class="chip-opt"><input type="radio" name="roi_target" id="roi2" value="3mois"><label class="chip-label" for="roi2">3 mois</label></div>
+      <div class="chip-opt"><input type="radio" name="roi_target" id="roi3" value="6mois"><label class="chip-label" for="roi3">6 mois</label></div>
+      <div class="chip-opt"><input type="radio" name="roi_target" id="roi4" value="1an"><label class="chip-label" for="roi4">1 an</label></div>
+      <div class="chip-opt"><input type="radio" name="roi_target" id="roi5" value="pas_priorite"><label class="chip-label" for="roi5">Pas une priorité</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Quelle métrique principale vous permettrait de dire "c'est une réussite" ?</label>
+    <input type="text" class="field-control" id="kpi_principal" placeholder="Ex : Traiter 3× plus de leads sans augmenter l'équipe commerciale">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Y a-t-il une contrainte de temps ou deadline importante ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="urgence" id="urg1" value="tres_urgent"><label class="chip-label" for="urg1">🔥 Très urgent (< 2 semaines)</label></div>
+      <div class="chip-opt"><input type="radio" name="urgence" id="urg2" value="1mois"><label class="chip-label" for="urg2">1 mois</label></div>
+      <div class="chip-opt"><input type="radio" name="urgence" id="urg3" value="3mois"><label class="chip-label" for="urg3">2–3 mois</label></div>
+      <div class="chip-opt"><input type="radio" name="urgence" id="urg4" value="flexible"><label class="chip-label" for="urg4">Pas de deadline précise</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Quel degré d'implication voulez-vous dans le projet ?</label>
+    <div class="choice-grid">
+      <div class="choice-card"><input type="radio" name="implication" id="imp1" value="cle_en_main"><label class="choice-label" for="imp1"><span class="choice-icon">🔑</span><span class="choice-title">Clé en main</span><span class="choice-desc">Vous gérez tout, je veux le résultat</span></label></div>
+      <div class="choice-card"><input type="radio" name="implication" id="imp2" value="collaboration"><label class="choice-label" for="imp2"><span class="choice-icon">🤝</span><span class="choice-title">En collaboration</span><span class="choice-desc">Travailler ensemble, apprendre au passage</span></label></div>
+      <div class="choice-card"><input type="radio" name="implication" id="imp3" value="coaching"><label class="choice-label" for="imp3"><span class="choice-icon">🎓</span><span class="choice-title">Coaching</span><span class="choice-desc">Vous guidez, mon équipe exécute</span></label></div>
+    </div>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots5"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="step" id="step-6">
+  <div class="step-label"><span class="step-dot"></span> Étape 6 — Budget & Décision</div>
+  <h1 class="step-title">Le cadre<br>de la décision.</h1>
+  <p class="step-sub">Des informations pratiques pour calibrer notre proposition et vous faire une offre adaptée à votre réalité.</p>
+
+  <div class="field-group">
+    <label class="field-label">Budget envisagé pour ce projet</label>
+    <div class="choice-grid">
+      <div class="choice-card"><input type="radio" name="budget" id="bgt1" value="moins_2000"><label class="choice-label" for="bgt1"><span class="choice-icon">🌱</span><span class="choice-title">< 2 000 €</span><span class="choice-desc">Quick win ciblé</span></label></div>
+      <div class="choice-card"><input type="radio" name="budget" id="bgt2" value="2000_5000"><label class="choice-label" for="bgt2"><span class="choice-icon">⚡</span><span class="choice-title">2 000 – 5 000 €</span><span class="choice-desc">Projet solide et mesurable</span></label></div>
+      <div class="choice-card"><input type="radio" name="budget" id="bgt3" value="5000_15000"><label class="choice-label" for="bgt3"><span class="choice-icon">🚀</span><span class="choice-title">5 000 – 15 000 €</span><span class="choice-desc">Transformation significative</span></label></div>
+      <div class="choice-card"><input type="radio" name="budget" id="bgt4" value="plus_15000"><label class="choice-label" for="bgt4"><span class="choice-icon">🏆</span><span class="choice-title">> 15 000 €</span><span class="choice-desc">Projet d'envergure / multi-process</span></label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Qui prend la décision finale d'achat ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="decideur" id="d1" value="moi_seul"><label class="chip-label" for="d1">Moi seul</label></div>
+      <div class="chip-opt"><input type="radio" name="decideur" id="d2" value="avec_dg"><label class="chip-label" for="d2">Avec la direction générale</label></div>
+      <div class="chip-opt"><input type="radio" name="decideur" id="d3" value="avec_equipe"><label class="chip-label" for="d3">Avec mon équipe</label></div>
+      <div class="chip-opt"><input type="radio" name="decideur" id="d4" value="avec_dsi"><label class="chip-label" for="d4">Avec la DSI / IT</label></div>
+      <div class="chip-opt"><input type="radio" name="decideur" id="d5" value="comite"><label class="chip-label" for="d5">Comité de direction</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Avez-vous déjà travaillé avec une agence en automatisation / IA ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="experience_presta" id="exp1" value="non_premier"><label class="chip-label" for="exp1">Non, c'est une première</label></div>
+      <div class="chip-opt"><input type="radio" name="experience_presta" id="exp2" value="oui_satisfait"><label class="chip-label" for="exp2">Oui, satisfaisant</label></div>
+      <div class="chip-opt"><input type="radio" name="experience_presta" id="exp3" value="oui_decu"><label class="chip-label" for="exp3">Oui, mais décevant</label></div>
+      <div class="chip-opt"><input type="radio" name="experience_presta" id="exp4" value="interne"><label class="chip-label" for="exp4">On a essayé en interne</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Y a-t-il des contraintes particulières à connaître ?</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="checkbox" id="c_rgpd" value="RGPD"><label class="chip-label" for="c_rgpd">Contraintes RGPD</label></div>
+      <div class="chip-opt"><input type="checkbox" id="c_hebergement" value="hebergement_fr"><label class="chip-label" for="c_hebergement">Hébergement France/Europe</label></div>
+      <div class="chip-opt"><input type="checkbox" id="c_si" value="SI_interne"><label class="chip-label" for="c_si">Système d'info interne complexe</label></div>
+      <div class="chip-opt"><input type="checkbox" id="c_secteur" value="reglementation_sectorielle"><label class="chip-label" for="c_secteur">Réglementation sectorielle</label></div>
+      <div class="chip-opt"><input type="checkbox" id="c_forma" value="formation_requise"><label class="chip-label" for="c_forma">Formation de l'équipe requise</label></div>
+      <div class="chip-opt"><input type="checkbox" id="c_aucune" value="aucune"><label class="chip-label" for="c_aucune">Aucune contrainte</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Comment nous avez-vous trouvé ?</label>
+    <select class="field-control" id="source" style="max-width:360px;">
+      <option value="">Sélectionnez</option>
+      <option>Bouche à oreille / recommandation</option>
+      <option>Recherche Google</option>
+      <option>LinkedIn</option>
+      <option>Réseaux sociaux</option>
+      <option>Podcast ou YouTube</option>
+      <option>Événement / salon</option>
+      <option>Autre</option>
+    </select>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots6"></div>
+      <button class="btn-next" onclick="nextStep()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7 — TRANSITION VERS GOOGLE FORM -->
+<div class="step" id="step-7">
+  <div class="step-label"><span class="step-dot"></span> Étape 7 — Dernière ligne droite</div>
+  <h1 class="step-title">Y a-t-il autre chose<br><span style="color:var(--orange)">à nous dire ?</span></h1>
+  <p class="step-sub">Un espace libre pour tout ce qui n'entre pas dans les cases précédentes. Les détails font souvent toute la différence.</p>
+
+  <div class="field-group">
+    <label class="field-label">Informations complémentaires, contexte, ou exemple de cas concret</label>
+    <textarea class="field-control" id="complement" placeholder="Tout ce qui vous semble utile : contexte projet, tentatives précédentes, workflows connexes, contraintes cachées, exemples de documents traités, liens vers des outils…" style="min-height:160px;" oninput="cc(this,'cc_comp')" maxlength="1000"></textarea>
+    <div class="char-count"><span id="cc_comp">0</span>/1000</div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Sur une échelle de 1 à 10, à quel point ce problème est-il douloureux pour vous au quotidien ?</label>
+    <div class="scale-wrap">
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl1" value="1"><label class="scale-label" for="dl1">1</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl2" value="2"><label class="scale-label" for="dl2">2</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl3" value="3"><label class="scale-label" for="dl3">3</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl4" value="4"><label class="scale-label" for="dl4">4</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl5" value="5"><label class="scale-label" for="dl5">5</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl6" value="6"><label class="scale-label" for="dl6">6</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl7" value="7"><label class="scale-label" for="dl7">7</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl8" value="8"><label class="scale-label" for="dl8">8</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl9" value="9"><label class="scale-label" for="dl9">9</label></div>
+      <div class="scale-opt"><input type="radio" name="douleur" id="dl10" value="10"><label class="scale-label" for="dl10">10</label></div>
+    </div>
+    <div class="scale-ends"><span>Mineur, ça attendra</span><span>Critique, on perd de l'argent</span></div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Format de premier contact préféré</label>
+    <div class="chips-wrap">
+      <div class="chip-opt"><input type="radio" name="contact_pref" id="cp1" value="appel_video"><label class="chip-label" for="cp1">📹 Appel vidéo (Google Meet, Zoom)</label></div>
+      <div class="chip-opt"><input type="radio" name="contact_pref" id="cp2" value="appel_tel"><label class="chip-label" for="cp2">📞 Appel téléphonique</label></div>
+      <div class="chip-opt"><input type="radio" name="contact_pref" id="cp3" value="email_retour"><label class="chip-label" for="cp3">📧 Retour par email d'abord</label></div>
+      <div class="chip-opt"><input type="radio" name="contact_pref" id="cp4" value="whatsapp"><label class="chip-label" for="cp4">💬 WhatsApp</label></div>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Disponibilités préférées pour un premier échange</label>
+    <input type="text" class="field-control" id="disponibilites" placeholder="Ex : Mardi et jeudi matin, à partir de 9h — ou : Vendredi toute la journée">
+  </div>
+
+  <!-- RECAP BOX -->
+  <div style="background:var(--orange-bg);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius);padding:20px 22px;margin-top:28px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:6px;">Votre diagnostic sera envoyé à</div>
+    <div style="font-weight:700;font-size:18px;">etbf.ai@gmail.com</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px;">Notre équipe vous répond sous 24h avec une analyse personnalisée et un plan d'action concret.</div>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-prev" onclick="prevStep()">← Retour</button>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="progress-dots" id="dots7"></div>
+      <button class="btn-next btn-submit-final" onclick="submitForm()">Envoyer mon diagnostic 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon-wrap">✓</div>
+  <h2 class="success-title">Diagnostic envoyé !</h2>
+  <p class="success-sub">Merci. Notre équipe analyse votre questionnaire et vous contacte sous 24h avec un plan d'action personnalisé et une estimation de ROI.</p>
+  <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Sauvegarder PDF</button>
+</div>
+
+</main>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+document.querySelectorAll('a,button,input,select,textarea,label').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='5px';cur.style.height='5px';ring.style.width='52px';ring.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+});
+
+// STEPS
+const TOTAL=7;
+let current=1;
+function updateUI(){
+  document.querySelectorAll('.step').forEach((s,i)=>{s.classList.toggle('active',i+1===current);});
+  document.getElementById('stepNum').textContent=current;
+  document.getElementById('progress-top').style.width=((current-1)/(TOTAL-1)*100)+'%';
+  for(let i=1;i<=TOTAL;i++){
+    const dots=document.getElementById('dots'+i);
+    if(dots){
+      dots.innerHTML='';
+      for(let d=1;d<=TOTAL;d++){
+        const div=document.createElement('div');
+        div.className='prog-dot';
+        if(d<current)div.classList.add('done');
+        if(d===current)div.classList.add('active');
+        dots.appendChild(div);
+      }
+    }
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextStep(){if(current<TOTAL){current++;updateUI();}}
+function prevStep(){if(current>1){current--;updateUI();}}
+updateUI();
+
+// CHAR COUNT
+function cc(el,id){document.getElementById(id).textContent=el.value.length;}
+
+// HELPERS
+function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function getCheckedBoxes(ids){return ids.map(id=>document.getElementById(id)).filter(e=>e&&e.checked).map(e=>e.value).join(', ');}
+function getRadioVal(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'—';}
+
+// SUBMIT — Web3Forms
+async function submitForm(){
+  if(!v('prenom')||!v('email')||!v('societe')){
+    alert('Merci de remplir les champs obligatoires (prénom, email, société).');
+    return;
+  }
+
+  const data={
+    prenom:v('prenom'),nom:v('nom'),email:v('email'),tel:v('tel'),
+    societe:v('societe'),secteur:v('secteur'),poste:v('poste'),taille:v('taille'),ca:v('ca'),
+    besoin_type:getRadioVal('besoin_type'),probleme:v('probleme'),
+    temps_perdu:v('temps_perdu'),nb_personnes:v('nb_personnes_impactees'),anciennete:getRadioVal('anciennete'),
+    entrees:getCheckedBoxes(['e_email','e_form','e_crm','e_cmd','e_doc','e_api','e_manuel','e_heure','e_autre']),
+    entree_detail:v('entree_detail'),
+    traitement:getCheckedBoxes(['t_humain','t_excel','t_logiciel','t_email_manu','t_copier','t_partiel']),
+    traitement_detail:v('traitement_detail'),decisions:getRadioVal('decision'),regles:v('regles_decision'),
+    sorties:getCheckedBoxes(['s_email','s_notif','s_crm','s_doc_gen','s_rapport','s_task','s_bdd','s_autre']),
+    sortie_detail:v('sortie_detail'),exceptions:v('exceptions'),
+    frequence:getRadioVal('frequence'),volume:v('volume'),
+    outils_crm:getCheckedBoxes(['crm_hubspot','crm_salesforce','crm_pipe','crm_zoho','crm_notion','crm_airtable','crm_excel','crm_autre']),
+    outils_com:getCheckedBoxes(['com_gmail','com_outlook','com_slack','com_teams','com_notion','com_whatsapp','com_wp']),
+    outils_pm:getCheckedBoxes(['pm_notion','pm_asana','pm_monday','pm_trello','pm_jira','pm_clickup','pm_linear']),
+    outils_ec:getCheckedBoxes(['ec_shopify','ec_woo','ec_stripe','ec_pennylane','ec_quickbooks','ec_sage','ec_sellsy']),
+    outils_auto:getCheckedBoxes(['auto_make','auto_zapier','auto_n8n','auto_power','auto_aucun']),
+    outils_autres:v('outils_autres'),api_dispo:getRadioVal('api_dispo'),
+    objectifs:getCheckedBoxes(['obj1','obj2','obj3','obj4','obj5','obj6']),
+    roi_target:getRadioVal('roi_target'),kpi_principal:v('kpi_principal'),
+    urgence:getRadioVal('urgence'),implication:getRadioVal('implication'),
+    budget:getRadioVal('budget'),decideur:getRadioVal('decideur'),
+    experience_presta:getRadioVal('experience_presta'),
+    contraintes:getCheckedBoxes(['c_rgpd','c_hebergement','c_si','c_secteur','c_forma','c_aucune']),
+    source:v('source'),complement:v('complement'),
+    douleur:getRadioVal('douleur'),contact_pref:getRadioVal('contact_pref'),disponibilites:v('disponibilites'),
+  };
+
+  const btn=document.querySelector('.btn-submit-final');
+  btn.textContent='Envoi en cours…';btn.disabled=true;
+
+  const msg=`=== DIAGNOSTIC ETBF ===
+Date : ${new Date().toLocaleString('fr-FR')}
+
+── CONTACT ──
+Nom : ${data.prenom} ${data.nom}
+Email : ${data.email}
+Téléphone : ${data.tel||'—'}
+Société : ${data.societe}
+Secteur : ${data.secteur}
+Poste : ${data.poste}
+Taille équipe : ${data.taille||'—'}
+CA annuel : ${data.ca||'—'}
+
+── LE PROBLÈME ──
+Type de besoin : ${data.besoin_type}
+Problème vécu : ${data.probleme}
+Temps perdu : ${data.temps_perdu||'—'}
+Personnes impactées : ${data.nb_personnes||'—'}
+Ancienneté : ${data.anciennete}
+
+── PROCESSUS ──
+Entrées : ${data.entrees||'—'}
+Détail entrée : ${data.entree_detail||'—'}
+Traitement : ${data.traitement||'—'}
+Étapes : ${data.traitement_detail||'—'}
+Décisions : ${data.decisions} — ${data.regles||'—'}
+Sorties : ${data.sorties||'—'}
+Sortie idéale : ${data.sortie_detail||'—'}
+Exceptions : ${data.exceptions||'—'}
+Fréquence : ${data.frequence||'—'} / Volume : ${data.volume||'—'}
+
+── OUTILS ──
+CRM : ${data.outils_crm||'—'}
+Communication : ${data.outils_com||'—'}
+Projets : ${data.outils_pm||'—'}
+E-commerce : ${data.outils_ec||'—'}
+Automatisation : ${data.outils_auto||'—'}
+Autres : ${data.outils_autres||'—'}
+APIs : ${data.api_dispo}
+
+── OBJECTIFS ──
+Objectifs : ${data.objectifs||'—'}
+ROI cible : ${data.roi_target||'—'}
+KPI : ${data.kpi_principal||'—'}
+Urgence : ${data.urgence||'—'}
+Implication : ${data.implication||'—'}
+
+── BUDGET & DÉCISION ──
+Budget : ${data.budget||'—'}
+Décideur : ${data.decideur||'—'}
+Expérience : ${data.experience_presta||'—'}
+Contraintes : ${data.contraintes||'—'}
+Source : ${data.source||'—'}
+
+── DIVERS ──
+Niveau de douleur : ${data.douleur}/10
+Complément : ${data.complement||'—'}
+Contact préféré : ${data.contact_pref||'—'}
+Disponibilités : ${data.disponibilites||'—'}`;
+
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:'27b1f3d2-a5e3-49d8-ba8b-6c97441b5572',
+        subject:`[ETBF Diagnostic] ${data.prenom} ${data.nom} — ${data.societe}`,
+        from_name:'ETBF Questionnaire',
+        message:msg,
+        email:data.email,
+      })
+    });
+    const r=await res.json();
+    if(r.success){showSuccess();}
+    else{btn.textContent='Envoyer mon diagnostic 🚀';btn.disabled=false;alert('Erreur lors de l\'envoi. Veuillez réessayer.');}
+  }catch(e){
+    btn.textContent='Envoyer mon diagnostic 🚀';btn.disabled=false;
+    alert('Erreur réseau. Veuillez réessayer.');
+  }
+}
+
+function showSuccess(){
+  document.querySelector('.q-wrap').style.display='none';
+  document.querySelector('.q-header').style.display='none';
+  document.getElementById('progress-top').style.width='100%';
+  document.getElementById('successScreen').style.display='block';
+}
+</script>
+
+</body>
+</html>
